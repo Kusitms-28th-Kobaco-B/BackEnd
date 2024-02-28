@@ -4,9 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
-import kobako.backend.crawling.application.BrandReputationCrawlingRequest;
+import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingRequest;
 import kobako.backend.crawling.application.CrawlingService;
 import kobako.backend.crawling.domain.BrandReputation;
+import kobako.backend.global.domain.RequestUri;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/crawling")
+@RequestMapping(RequestUri.crawling)
 @RequiredArgsConstructor
 public class CrawlingController {
 

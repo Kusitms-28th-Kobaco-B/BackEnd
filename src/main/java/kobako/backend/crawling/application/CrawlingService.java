@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import kobako.backend.crawling.domain.BrandReputation;
+import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
