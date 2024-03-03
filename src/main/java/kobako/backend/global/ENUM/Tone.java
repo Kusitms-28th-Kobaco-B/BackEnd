@@ -1,7 +1,7 @@
 package kobako.backend.global.ENUM;
 
-//헤드카피 톤앤매너
-public enum HTone {
+//전체 톤앤매너
+public enum Tone {
     DEFAULT,    // 기본형
     REVIEW,     // 리뷰형
     ACTION,     // 행동촉구형
