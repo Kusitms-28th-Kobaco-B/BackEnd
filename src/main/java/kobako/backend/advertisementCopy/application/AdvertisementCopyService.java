@@ -21,6 +21,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,20 +56,24 @@ public class AdvertisementCopyService {
     private final AdvertisementCopyRepository advertisementCopyRepository;
 
 
-    public List<GetRecentAdvertisementCopyResponse> GetRecentAdvertisementCopy (
+    public Slice<GetRecentAdvertisementCopyResponse> GetRecentAdvertisementCopy (
             Long memberId
     ) {
-        List<AdvertisementCopy> advertisementCopies = advertisementCopyRepository.findFirst8ByOrderByCreatedDateDesc(memberId);
+        // 최근 날짜 순으로 20개 Slice.
+        Pageable pageable = PageRequest.of(0, 20, Sort.by("createdDate").descending());
+        Slice<AdvertisementCopy> advertisementCopiesSlice = advertisementCopyRepository.findByMemberIdOrderByCreatedDateDesc(memberId, pageable);
 
+        // Slice -> Response DTO로 변환.
         List<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
-                = advertisementCopies.stream()
+                = advertisementCopiesSlice.getContent().stream()
                 .map(advertisementCopy -> AdvertisementCopyResponse.of(advertisementCopy))
                 .map(advertisementCopyResponse -> GetRecentAdvertisementCopyResponse.builder()
                         .advertisementCopies(Collections.singletonList(advertisementCopyResponse))
                         .build())
                 .collect(Collectors.toList());
 
-        return getRecentAdvertisementCopyResponses;
+        // Slice로 반환
+        return new SliceImpl<>(getRecentAdvertisementCopyResponses, pageable, advertisementCopiesSlice.hasNext());
     }
 
     public AdvertisementCopyResponse generateAdvertisementCopy(

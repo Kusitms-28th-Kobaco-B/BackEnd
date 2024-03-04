@@ -9,6 +9,7 @@ import kobako.backend.advertisementCopy.dto.response.GetRecentAdvertisementCopyR
 import kobako.backend.global.domain.RequestUri;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +36,10 @@ public class AdvertisementCopyController {
 
     // 모든 광고카피 정보
     @GetMapping("/copies/mypage/{memberId}")
-    public ResponseEntity<List<GetRecentAdvertisementCopyResponse>> GetMyAdvertismentCopies(
+    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> GetMyAdvertismentCopies(
             @PathVariable Long memberId
     ) {
-        List<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
+        Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
                 = advertisementCopyService.GetRecentAdvertisementCopy(memberId);
 
         return ResponseEntity.ok(getRecentAdvertisementCopyResponses);
