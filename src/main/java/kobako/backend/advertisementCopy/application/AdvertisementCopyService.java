@@ -3,6 +3,7 @@ package kobako.backend.advertisementCopy.application;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kobako.backend.Member.infra.presistence.MemberRepository;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.request.UpdateAdvertisementCopyRequest;
@@ -28,8 +29,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -47,14 +50,26 @@ public class AdvertisementCopyService {
     @Value("${naver.clova.RequestId}")
     private String requestId;
 
+
+    private final MemberRepository memberRepository;
     private final AdvertisementCopyRepository advertisementCopyRepository;
 
 
-    /*public List<GetRecentAdvertisementCopyResponse> GetRecentAdvertisementCopy (
+    public List<GetRecentAdvertisementCopyResponse> GetRecentAdvertisementCopy (
             Long memberId
     ) {
+        List<AdvertisementCopy> advertisementCopies = advertisementCopyRepository.findFirst8ByOrderByCreatedDateDesc(memberId);
 
-    }*/
+        List<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
+                = advertisementCopies.stream()
+                .map(advertisementCopy -> AdvertisementCopyResponse.of(advertisementCopy))
+                .map(advertisementCopyResponse -> GetRecentAdvertisementCopyResponse.builder()
+                        .advertisementCopies(Collections.singletonList(advertisementCopyResponse))
+                        .build())
+                .collect(Collectors.toList());
+
+        return getRecentAdvertisementCopyResponses;
+    }
 
     public AdvertisementCopyResponse generateAdvertisementCopy(
             GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest

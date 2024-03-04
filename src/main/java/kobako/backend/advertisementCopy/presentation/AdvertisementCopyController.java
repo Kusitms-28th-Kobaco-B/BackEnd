@@ -34,12 +34,15 @@ public class AdvertisementCopyController {
 
 
     // 모든 광고카피 정보
-    /*@GetMapping("/copies/mypage/{memberId}")
+    @GetMapping("/copies/mypage/{memberId}")
     public ResponseEntity<List<GetRecentAdvertisementCopyResponse>> GetMyAdvertismentCopies(
             @PathVariable Long memberId
     ) {
-        advertisementCopyService.GetRecentAdvertisementCopy(memberId);
-    }*/
+        List<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
+                = advertisementCopyService.GetRecentAdvertisementCopy(memberId);
+
+        return ResponseEntity.ok(getRecentAdvertisementCopyResponses);
+    }
 
     /*@GetMapping("/copies")
     public ResponseEntity<List> GetAllAdvertismentCopies(

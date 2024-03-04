@@ -2,6 +2,7 @@ package kobako.backend.advertisementCopy.domain;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
+import kobako.backend.Member.domain.Member;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.TargetAge;
 import kobako.backend.global.ENUM.TargetGender;
@@ -26,7 +27,9 @@ public class AdvertisementCopy extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long advertisementCopyId;
 
-    private Long memberId;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Enumerated(EnumType.STRING)
     private Service service;
