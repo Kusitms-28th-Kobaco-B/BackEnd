@@ -89,7 +89,9 @@ public class CrawlingService {
 	"g.highcharts-series-0.highcharts-column-series.highcharts-tracker rect"));
             List<Double> ageGroupRatios = parseSVG(rectElements);
 
-            return new KakaoDataTrendCrawlingResponse(femalePercentage, malePercentage,
+            return new KakaoDataTrendCrawlingResponse(
+	femalePercentage.substring(0, femalePercentage.length() - 1),
+	malePercentage.substring(0, femalePercentage.length() - 1),
 	ageGroupRatios.get(0), ageGroupRatios.get(1), ageGroupRatios.get(2),
 	ageGroupRatios.get(3), ageGroupRatios.get(4), ageGroupRatios.get(5));
 
