@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import kobako.backend.crawling.domain.BrandReputation;
 import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingRequest;
+import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,18 @@ class BrandReputationCrawlingServiceTest {
 
         // then
         Assertions.assertThat(response).isNotNull();
+    }
+
+    @Test
+    void 속한_카테고리_중_가장_높은_순위를_반환한다() {
+        // given
+        BrandReputationCrawlingRequest request = new BrandReputationCrawlingRequest("유재석");
+
+        // when
+        BrandReputationCrawlingResponse response = brandReputationCrawlingService.getHighestBrandReputation(
+            request);
+
+        // then
+        Assertions.assertThat(response.rank()).isNotNull();
     }
 }
