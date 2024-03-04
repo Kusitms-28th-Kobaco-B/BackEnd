@@ -3,6 +3,8 @@ package kobako.backend.advertisementCopy.application;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kobako.backend.CopyGallery.domain.CopyGallery;
+import kobako.backend.CopyGallery.infra.presistence.CopyGalleryRepository;
 import kobako.backend.Member.infra.presistence.MemberRepository;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
@@ -54,9 +56,10 @@ public class AdvertisementCopyService {
 
     private final MemberRepository memberRepository;
     private final AdvertisementCopyRepository advertisementCopyRepository;
+    private final CopyGalleryRepository copyGalleryRepository;
 
 
-    public Slice<GetRecentAdvertisementCopyResponse> GetRecentAdvertisementCopy (
+    public Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopy (
             Long memberId
     ) {
         // 최근 날짜 순으로 20개 Slice.
@@ -124,6 +127,28 @@ public class AdvertisementCopyService {
 
         AdvertisementCopy advertisementCopy = advertisementCopyRepository.save(generateAdvertisementCopyRequest.toBodyCopy(message));  // 광고카피 저장
         return AdvertisementCopyResponse.of(advertisementCopy);  // 광고카피 응답 생성
+    }
+
+
+    public AdvertisementCopyResponse loadAdvertisementCopy(Long memberId, Long advertisementCopyId){
+
+        // 광고카피 탐색
+        AdvertisementCopy advertisementCopy = advertisementCopyRepository.findByMemberIdAndAdvertisementCopyId(memberId, advertisementCopyId)
+                .orElseThrow(() -> new NoSuchElementException("AdvertisementCopy not found with id: " + advertisementCopyId));
+
+        // 카피갤러리 생성
+        CopyGallery copyGallery = CopyGallery.builder()
+                .advertisementCopy(advertisementCopy)
+                .member(advertisementCopy.getMember())
+                .service(advertisementCopy.getService())
+                .productName(advertisementCopy.getProductName())
+                .tone(advertisementCopy.getTone())
+                .views(0L)
+                .message(advertisementCopy.getMessage())
+                .build();
+        copyGalleryRepository.save(copyGallery);
+
+        return AdvertisementCopyResponse.of(advertisementCopy);
     }
 
 

@@ -36,11 +36,11 @@ public class AdvertisementCopyController {
 
     // 모든 광고카피 정보
     @GetMapping("/copies/mypage/{memberId}")
-    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> GetMyAdvertismentCopies(
+    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> getMyAdvertismentCopies(
             @PathVariable Long memberId
     ) {
         Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
-                = advertisementCopyService.GetRecentAdvertisementCopy(memberId);
+                = advertisementCopyService.getRecentAdvertisementCopy(memberId);
 
         return ResponseEntity.ok(getRecentAdvertisementCopyResponses);
     }
@@ -58,7 +58,7 @@ public class AdvertisementCopyController {
 
     //생성
     @PostMapping("/copy")
-    public ResponseEntity<AdvertisementCopyResponse> GenerateAdvertisementCopy(
+    public ResponseEntity<AdvertisementCopyResponse> generateAdvertisementCopy(
             @RequestBody GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
 
@@ -68,15 +68,19 @@ public class AdvertisementCopyController {
 
     //저장
     @PostMapping("/copy/{advertisementCopyId}")
-    public void LoadAdvertisementCopy(
+    public ResponseEntity<AdvertisementCopyResponse> LoadAdvertisementCopy(
+            @PathVariable Long memberId,
             @PathVariable Long advertisementCopyId
     ) {
+        AdvertisementCopyResponse advertisementCopyResponse
+                = advertisementCopyService.loadAdvertisementCopy(memberId, advertisementCopyId);
 
+        return ResponseEntity.ok(advertisementCopyResponse);
     }
 
     //수정
     @PatchMapping("/copy/{advertisementCopyId}")
-    public ResponseEntity<AdvertisementCopyResponse> UpdateAdvertisementCopy(
+    public ResponseEntity<AdvertisementCopyResponse> updateAdvertisementCopy(
             @PathVariable Long advertisementCopyId,
             @RequestBody UpdateAdvertisementCopyRequest updateAdvertisementCopyRequest
     ) {
@@ -87,7 +91,7 @@ public class AdvertisementCopyController {
 
     //삭제
     @DeleteMapping("/copies/{advertisementCopyId}")
-    public ResponseEntity DeleteAdvertisementCopies(
+    public ResponseEntity deleteAdvertisementCopies(
             @PathVariable Long advertisementCopyId
     ) {
         advertisementCopyService.deleteAdvertisementCopy(advertisementCopyId);
