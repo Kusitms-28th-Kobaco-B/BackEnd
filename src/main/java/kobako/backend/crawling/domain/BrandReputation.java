@@ -11,10 +11,10 @@ import lombok.Setter;
 public class BrandReputation {
 
     int rank;
-    String name;
+    String description;
 
-    public BrandReputation(int rank, String name) {
+    public BrandReputation(int rank, String description) {
         this.rank = rank;
-        this.name = name;
+        this.description = description;
     }
 }

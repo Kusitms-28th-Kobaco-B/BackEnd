@@ -2,6 +2,8 @@ package kobako.backend.crawling.application;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingRequest;
+import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingResponse;
 import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingRequest;
 import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingResponse;
 import org.junit.jupiter.api.Test;
@@ -26,5 +28,17 @@ class CrawlingServiceTest {
         // then
         assertNotNull(response);
         System.out.print(response.toString());
+    }
+
+    @Test
+    void 키워드를_받으면_제일_높은_순위와_카테고리를_반환한다() {
+        // given
+        String keyword = "이민정";
+        BrandReputationCrawlingRequest request = new BrandReputationCrawlingRequest(keyword);
+
+        // when
+        BrandReputationCrawlingResponse response = crawlingService.getHighestBrandReputationRank(request);
+
+        // then
     }
 }

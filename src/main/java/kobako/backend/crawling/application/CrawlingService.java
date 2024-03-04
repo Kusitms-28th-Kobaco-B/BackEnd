@@ -1,20 +1,16 @@
 package kobako.backend.crawling.application;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import kobako.backend.crawling.domain.BrandReputation;
 import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingRequest;
+import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingResponse;
 import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingRequest;
 import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,39 +21,12 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CrawlingService {
 
-    private final String brandReputationBaseUri = "https://brikorea.com/rk/star";
     private final String kakaoDataTrendBaseUri = "https://datatrend.kakao.com/result";
 
-    public List<BrandReputation> crawlBrandReputation(BrandReputationCrawlingRequest request) {
-        final String uri = brandReputationBaseUri + request.year() + request.month();
-
-        try {
-            Connection connection = Jsoup.connect(uri);
-            Document document = connection.get();
-            Elements tableRows = document.select(".table.table-bordered.bri_rank_table tbody tr");
-
-            List<BrandReputation> rankings = new ArrayList<>();
-            for (Element row : tableRows) {
-	Elements columns = row.select("td");
-	if (rankings.size() > 99) {
-	    break;
-	}
-	if (columns.size() > 1) {
-	    int rank = Integer.parseInt(columns.get(0).text().replace(",", ""));
-	    String name = columns.get(1).text();
-
-	    rankings.add(new BrandReputation(rank, name));
-	}
-            }
-
-            return rankings;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to crawl brand reputation");
-        }
-    }
+    private final BrandReputationCrawlingService brandReputationCrawlingService;
 
     public KakaoDataTrendCrawlingResponse crawlKakaoDataTrend(
         KakaoDataTrendCrawlingRequest request) {
@@ -114,5 +83,10 @@ public class CrawlingService {
         }
 
         return ageGroupRatios;
+    }
+
+    public BrandReputationCrawlingResponse getHighestBrandReputationRank(
+        BrandReputationCrawlingRequest request) {
+        return brandReputationCrawlingService.getHighestBrandReputation(request);
     }
 }
