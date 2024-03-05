@@ -47,9 +47,9 @@ public class AdvertisementCopyResponse {
                 .collect(Collectors.toList());
     }
 
-    // copyGallery를 AdvertisementCopyResponse로 변환 (Slice)
-    public static Slice<AdvertisementCopyResponse> ofCopyGalleriesSlice (Slice<CopyGallery> copyGalleriesSlice) {
-        List<AdvertisementCopyResponse> advertisementCopyResponses = copyGalleriesSlice.getContent().stream()
+    // copyGallery를 AdvertisementCopyResponse로 변환 (List)
+    public static List<AdvertisementCopyResponse> ofCopyGalleriesList(List<CopyGallery> copyGalleries) {
+        return copyGalleries.stream()
                 .map(copyGallery -> AdvertisementCopyResponse.builder()
                         .advertisementCopyId(copyGallery.getAdvertisementCopy().getAdvertisementCopyId())
                         .service(copyGallery.getService())
@@ -57,10 +57,8 @@ public class AdvertisementCopyResponse {
                         .message(copyGallery.getMessage())
                         .build())
                 .collect(Collectors.toList());
-
-        // 변환된 AdvertisementCopyResponse를 slice로 변환
-        return new SliceImpl<>(advertisementCopyResponses, copyGalleriesSlice.getPageable(), copyGalleriesSlice.hasNext());
     }
+
 
 
 }

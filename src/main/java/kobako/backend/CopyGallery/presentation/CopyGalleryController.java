@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -27,15 +28,16 @@ public class CopyGalleryController {
 
     // 최근 저장한 광고카피
     @GetMapping("/recent-loaded/{memberId}")
-    public ResponseEntity<Slice<AdvertisementCopyResponse>> getMyRecentCopyGallery(
+    public ResponseEntity<List<AdvertisementCopyResponse>> getMyRecentCopyGallery(
             @PathVariable Long memberId
     ) {
-        Slice<AdvertisementCopyResponse> advertisementCopyResponseSlice
+        List<AdvertisementCopyResponse> advertisementCopyResponses
                 = copyGalleryService.getRecentLoadAdvertisementCopy(memberId);
 
-        return ResponseEntity.ok(advertisementCopyResponseSlice);
+        return ResponseEntity.ok(advertisementCopyResponses);
     }
 
+    // 카피 갤러리 검색
     @GetMapping("/search")
     public ResponseEntity<Page<CopyGalleryResponse>> GetAllAdvertismentCopies(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
