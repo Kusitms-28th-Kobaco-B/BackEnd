@@ -33,12 +33,12 @@ public class CopyGalleryService {
         return AdvertisementCopyResponse.ofCopyGalleriesList(recentAdvertisementCopies);
     }
 
+    // 카피 갤러리 검색
     public Page<CopyGalleryResponse> searchCopyGallery(
             SearchCopyGalleryRequest searchCopyGalleryRequest
     ) {
-
-        //최근 날짜 순으로 20개 Page.
-        Pageable pageable = PageRequest.of(0, 20, Sort.by("createdDate").descending());
+        //최근 날짜 순으로 6개 Page.
+        Pageable pageable = PageRequest.of(0, 6, Sort.by("createdDate").descending());
         Page<CopyGallery> searchedCopyGalleries
                 = copyGalleryRepository.findByServiceAndToneAndCreatedAtBetween(
                         searchCopyGalleryRequest.getService(),
@@ -48,9 +48,12 @@ public class CopyGalleryService {
                         pageable
         );
 
+        // 각 페이지네이션된 CopyGallery 조회수 1 증가.
+        for (CopyGallery copyGallery : searchedCopyGalleries) {
+            copyGallery.increaseViews();
+            copyGalleryRepository.save(copyGallery);
+        }
+
         return CopyGalleryResponse.ofCopyGalleriesPage(searchedCopyGalleries);
     }
-
-
-    // 카피 갤러리 검색
 }

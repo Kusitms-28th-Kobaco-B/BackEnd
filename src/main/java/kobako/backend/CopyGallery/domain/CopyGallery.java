@@ -42,4 +42,9 @@ public class CopyGallery extends BaseEntity {
 
     @Column(length = 300)
     private String message;
+
+    // 조회수 증가 메서드
+    public void increaseViews() {
+        this.views++;
+    }
 }
