@@ -1,8 +1,8 @@
-package kobako.backend.CopyGallery.presentation;
+package kobako.backend.copyGallery.presentation;
 
-import kobako.backend.CopyGallery.application.CopyGalleryService;
-import kobako.backend.CopyGallery.dto.Request.SearchCopyGalleryRequest;
-import kobako.backend.CopyGallery.dto.Response.CopyGalleryResponse;
+import kobako.backend.copyGallery.application.CopyGalleryService;
+import kobako.backend.copyGallery.dto.Request.SearchCopyGalleryRequest;
+import kobako.backend.copyGallery.dto.Response.CopyGalleryResponse;
 import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.Tone;
@@ -10,7 +10,6 @@ import kobako.backend.global.domain.RequestUri;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Slice;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

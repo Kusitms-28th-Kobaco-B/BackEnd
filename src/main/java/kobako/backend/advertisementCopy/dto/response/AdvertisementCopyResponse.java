@@ -1,6 +1,6 @@
 package kobako.backend.advertisementCopy.dto.response;
 
-import kobako.backend.CopyGallery.domain.CopyGallery;
+import kobako.backend.copyGallery.domain.CopyGallery;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.Tone;
@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;

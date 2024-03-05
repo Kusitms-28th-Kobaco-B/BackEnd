@@ -2,18 +2,15 @@ package kobako.backend.advertisementCopy.domain;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import kobako.backend.Member.domain.Member;
+import kobako.backend.member.domain.Member;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.TargetAge;
 import kobako.backend.global.ENUM.TargetGender;
 import kobako.backend.global.ENUM.Tone;
 import kobako.backend.global.base.BaseEntity;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import net.bytebuddy.implementation.bind.annotation.Super;
 
 import java.util.List;
 

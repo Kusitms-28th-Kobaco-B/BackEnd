@@ -1,9 +1,9 @@
-package kobako.backend.CopyGallery.application;
+package kobako.backend.copyGallery.application;
 
-import kobako.backend.CopyGallery.domain.CopyGallery;
-import kobako.backend.CopyGallery.dto.Request.SearchCopyGalleryRequest;
-import kobako.backend.CopyGallery.dto.Response.CopyGalleryResponse;
-import kobako.backend.CopyGallery.infra.presistence.CopyGalleryRepository;
+import kobako.backend.copyGallery.domain.CopyGallery;
+import kobako.backend.copyGallery.dto.Request.SearchCopyGalleryRequest;
+import kobako.backend.copyGallery.dto.Response.CopyGalleryResponse;
+import kobako.backend.copyGallery.infra.presistence.CopyGalleryRepository;
 import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
