@@ -1,4 +1,4 @@
-package kobako.backend.Member.domain;
+package kobako.backend.member.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

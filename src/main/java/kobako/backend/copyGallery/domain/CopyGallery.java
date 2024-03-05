@@ -1,7 +1,7 @@
-package kobako.backend.CopyGallery.domain;
+package kobako.backend.copyGallery.domain;
 
 import jakarta.persistence.*;
-import kobako.backend.Member.domain.Member;
+import kobako.backend.member.domain.Member;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.Tone;

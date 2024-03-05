@@ -3,9 +3,9 @@ package kobako.backend.advertisementCopy.application;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kobako.backend.CopyGallery.domain.CopyGallery;
-import kobako.backend.CopyGallery.infra.presistence.CopyGalleryRepository;
-import kobako.backend.Member.infra.presistence.MemberRepository;
+import kobako.backend.copyGallery.domain.CopyGallery;
+import kobako.backend.copyGallery.infra.presistence.CopyGalleryRepository;
+import kobako.backend.member.infra.presistence.MemberRepository;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.request.UpdateAdvertisementCopyRequest;
@@ -20,7 +20,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package kobako.backend.CopyGallery.dto.Request;
+package kobako.backend.copyGallery.dto.Request;
 
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.Tone;
