@@ -12,6 +12,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping(value = RequestUri.advertisement)
@@ -25,13 +27,13 @@ public class AdvertisementCopyController {
 
     // 최근 생성한 광고카피
     @GetMapping("/copies/recent/{memberId}")
-    public ResponseEntity<Slice<AdvertisementCopyResponse>> getMyAdvertisementCopies(
+    public ResponseEntity<List<AdvertisementCopyResponse>> getMyAdvertisementCopies(
             @PathVariable Long memberId
     ) {
-        Slice<AdvertisementCopyResponse> advertisementCopyResponsesSlice
+        List<AdvertisementCopyResponse> advertisementCopyResponses
                 = advertisementCopyService.getRecentAdvertisementCopy(memberId);
 
-        return ResponseEntity.ok(advertisementCopyResponsesSlice);
+        return ResponseEntity.ok(advertisementCopyResponses);
     }
 
 

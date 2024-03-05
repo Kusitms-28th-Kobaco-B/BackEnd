@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -53,15 +54,14 @@ public class AdvertisementCopyService {
 
 
 
-    public Slice<AdvertisementCopyResponse> getRecentAdvertisementCopy (
+    public List<AdvertisementCopyResponse> getRecentAdvertisementCopy (
             Long memberId
     ) {
-        // 최근 날짜 순으로 20개 Slice.
-        Pageable pageable = PageRequest.of(0, 20, Sort.by("createdDate").descending());
-        Slice<AdvertisementCopy> advertisementCopiesSlice = advertisementCopyRepository.findByMemberIdOrderByCreatedDateDesc(memberId, pageable);
+        // 사용자가 생성한 광고카피를 최신순으로 탐색
+        List<AdvertisementCopy> advertisementCopies = advertisementCopyRepository.findByMemberIdOrderByCreatedDateDesc(memberId);
 
-        // Slice 반환
-        return AdvertisementCopyResponse.ofAdvertisementCopiesSlice(advertisementCopiesSlice);
+        // List 반환
+        return AdvertisementCopyResponse.ofAdvertisementCopiesList(advertisementCopies);
     }
 
     public AdvertisementCopyResponse generateAdvertisementCopy(
