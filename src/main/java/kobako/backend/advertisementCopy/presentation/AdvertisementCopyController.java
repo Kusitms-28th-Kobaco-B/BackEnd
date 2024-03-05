@@ -5,15 +5,12 @@ import kobako.backend.advertisementCopy.application.AdvertisementCopyService;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.request.UpdateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
-import kobako.backend.advertisementCopy.dto.response.GetRecentAdvertisementCopyResponse;
 import kobako.backend.global.domain.RequestUri;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -24,28 +21,17 @@ public class AdvertisementCopyController {
     private final AdvertisementCopyService advertisementCopyService;
 
 
-    // 최근 저장한 광고카피
-    @GetMapping("/copies/{memberId}")
-    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> GetMyAdvertismentCopies(
-            @PathVariable Long memberId
-    ) {
-        Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
-                = advertisementCopyService.getRecentLoadAdvertisementCopy(memberId);
-
-        return ResponseEntity.ok(getRecentAdvertisementCopyResponses);
-    }
-
 
 
     // 최근 생성한 광고카피
-    @GetMapping("/copies/mypage/{memberId}")
-    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> getMyAdvertisementCopies(
+    @GetMapping("/copies/recent/{memberId}")
+    public ResponseEntity<Slice<AdvertisementCopyResponse>> getMyAdvertisementCopies(
             @PathVariable Long memberId
     ) {
-        Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
+        Slice<AdvertisementCopyResponse> advertisementCopyResponsesSlice
                 = advertisementCopyService.getRecentAdvertisementCopy(memberId);
 
-        return ResponseEntity.ok(getRecentAdvertisementCopyResponses);
+        return ResponseEntity.ok(advertisementCopyResponsesSlice);
     }
 
     /*@GetMapping("/copies")
@@ -60,7 +46,7 @@ public class AdvertisementCopyController {
     }*/
 
     //생성
-    @PostMapping("/copy")
+    @PostMapping("/copies")
     public ResponseEntity<AdvertisementCopyResponse> generateAdvertisementCopy(
             @RequestBody GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
@@ -70,7 +56,7 @@ public class AdvertisementCopyController {
     }
 
     //저장
-    @PostMapping("/copy/{advertisementCopyId}")
+    @PostMapping("/copies/{memberId}/{advertisementCopyId}")
     public ResponseEntity<AdvertisementCopyResponse> LoadAdvertisementCopy(
             @PathVariable Long memberId,
             @PathVariable Long advertisementCopyId
@@ -82,7 +68,7 @@ public class AdvertisementCopyController {
     }
 
     //수정
-    @PatchMapping("/copy/{advertisementCopyId}")
+    @PatchMapping("/copies/{advertisementCopyId}")
     public ResponseEntity<AdvertisementCopyResponse> updateAdvertisementCopy(
             @PathVariable Long advertisementCopyId,
             @RequestBody UpdateAdvertisementCopyRequest updateAdvertisementCopyRequest

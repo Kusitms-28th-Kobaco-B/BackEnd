@@ -10,13 +10,10 @@ import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.request.UpdateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
-import kobako.backend.advertisementCopy.dto.response.GetRecentAdvertisementCopyResponse;
 import kobako.backend.advertisementCopy.infra.presistence.AdvertisementCopyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -28,14 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -59,44 +52,16 @@ public class AdvertisementCopyService {
     private final CopyGalleryRepository copyGalleryRepository;
 
 
-    public Slice<GetRecentAdvertisementCopyResponse> getRecentLoadAdvertisementCopy (
-            Long memberId
-    ) {
-        // 최근 날짜 순으로 20개 Slice.
-        Pageable pageable = PageRequest.of(0, 20, Sort.by("createdDate").descending());
-        Slice<CopyGallery> recentAdvertisementCopiesSlice = copyGalleryRepository.findByMemberIdOrderByCreatedDateDesc(memberId, pageable);
 
-        // Slice -> Response DTO로 변환.
-        List<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
-                = recentAdvertisementCopiesSlice.getContent().stream()
-                .map(advertisementCopy -> AdvertisementCopyResponse.of(advertisementCopy))
-                .map(advertisementCopyResponse -> GetRecentAdvertisementCopyResponse.builder()
-                        .advertisementCopies(Collections.singletonList(advertisementCopyResponse))
-                        .build())
-                .collect(Collectors.toList());
-
-        // Slice로 반환
-        return new SliceImpl<>(getRecentAdvertisementCopyResponses, pageable, recentAdvertisementCopiesSlice.hasNext());
-    }
-
-    public Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopy (
+    public Slice<AdvertisementCopyResponse> getRecentAdvertisementCopy (
             Long memberId
     ) {
         // 최근 날짜 순으로 20개 Slice.
         Pageable pageable = PageRequest.of(0, 20, Sort.by("createdDate").descending());
         Slice<AdvertisementCopy> advertisementCopiesSlice = advertisementCopyRepository.findByMemberIdOrderByCreatedDateDesc(memberId, pageable);
 
-        // Slice -> Response DTO로 변환.
-        List<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
-                = advertisementCopiesSlice.getContent().stream()
-                .map(advertisementCopy -> AdvertisementCopyResponse.of(advertisementCopy))
-                .map(advertisementCopyResponse -> GetRecentAdvertisementCopyResponse.builder()
-                        .advertisementCopies(Collections.singletonList(advertisementCopyResponse))
-                        .build())
-                .collect(Collectors.toList());
-
-        // Slice로 반환
-        return new SliceImpl<>(getRecentAdvertisementCopyResponses, pageable, advertisementCopiesSlice.hasNext());
+        // Slice 반환
+        return AdvertisementCopyResponse.ofAdvertisementCopiesSlice(advertisementCopiesSlice);
     }
 
     public AdvertisementCopyResponse generateAdvertisementCopy(
