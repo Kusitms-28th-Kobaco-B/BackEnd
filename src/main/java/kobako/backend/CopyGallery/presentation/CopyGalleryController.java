@@ -1,17 +1,21 @@
 package kobako.backend.CopyGallery.presentation;
 
 import kobako.backend.CopyGallery.application.CopyGalleryService;
+import kobako.backend.CopyGallery.dto.Request.SearchCopyGalleryRequest;
+import kobako.backend.CopyGallery.dto.Response.CopyGalleryResponse;
 import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
+import kobako.backend.global.ENUM.Service;
+import kobako.backend.global.ENUM.Tone;
 import kobako.backend.global.domain.RequestUri;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @Slf4j
 @RestController
@@ -22,8 +26,8 @@ public class CopyGalleryController {
     private static CopyGalleryService copyGalleryService;
 
     // 최근 저장한 광고카피
-    @GetMapping("/copies/recent-loaded/{memberId}")
-    public ResponseEntity<Slice<AdvertisementCopyResponse>> GetMyRecentCopyGallery(
+    @GetMapping("/recent-loaded/{memberId}")
+    public ResponseEntity<Slice<AdvertisementCopyResponse>> getMyRecentCopyGallery(
             @PathVariable Long memberId
     ) {
         Slice<AdvertisementCopyResponse> advertisementCopyResponseSlice
@@ -32,7 +36,22 @@ public class CopyGalleryController {
         return ResponseEntity.ok(advertisementCopyResponseSlice);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<CopyGalleryResponse>> GetAllAdvertismentCopies(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) Service service,
+            @RequestParam(required = false) Tone tone
+            ) {
 
+        SearchCopyGalleryRequest searchCopyGalleryRequest
+                = new SearchCopyGalleryRequest(startDate, endDate, service, tone);
+
+        Page<CopyGalleryResponse> copyGalleryResponsePage
+                = copyGalleryService.searchCopyGallery(searchCopyGalleryRequest);
+
+        return ResponseEntity.ok(copyGalleryResponsePage);
+    }
 
 
 }

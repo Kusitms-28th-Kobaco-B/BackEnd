@@ -34,16 +34,6 @@ public class AdvertisementCopyController {
         return ResponseEntity.ok(advertisementCopyResponsesSlice);
     }
 
-    /*@GetMapping("/copies")
-    public ResponseEntity<List> GetAllAdvertismentCopies(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(required = false) Service service,
-            @RequestParam(required = false) Tone tone
-            ) {
-
-        advertisementCopyService.
-    }*/
 
     //생성
     @PostMapping("/copies")
@@ -54,6 +44,7 @@ public class AdvertisementCopyController {
         AdvertisementCopyResponse advertisementCopyResponse =  advertisementCopyService.generateAdvertisementCopy(generateAdvertisementCopyRequest);
         return ResponseEntity.ok(advertisementCopyResponse);
     }
+
 
     //저장
     @PostMapping("/copies/{memberId}/{advertisementCopyId}")
@@ -67,6 +58,7 @@ public class AdvertisementCopyController {
         return ResponseEntity.ok(advertisementCopyResponse);
     }
 
+
     //수정
     @PatchMapping("/copies/{advertisementCopyId}")
     public ResponseEntity<AdvertisementCopyResponse> updateAdvertisementCopy(
@@ -77,6 +69,7 @@ public class AdvertisementCopyController {
         AdvertisementCopyResponse advertisementCopyResponse = advertisementCopyService.updateAdvertisementCopy(advertisementCopyId, updateAdvertisementCopyRequest);
         return ResponseEntity.ok(advertisementCopyResponse);
     }
+
 
     //삭제
     @DeleteMapping("/copies/{advertisementCopyId}")
