@@ -24,19 +24,22 @@ public class AdvertisementCopyController {
     private final AdvertisementCopyService advertisementCopyService;
 
 
-    // 30일간의 광고카피 정보
-    /*@GetMapping("/copies/{memberId}")
-    public ResponseEntity<List> GetMyAdvertismentCopies(
+    // 최근 저장한 광고카피
+    @GetMapping("/copies/{memberId}")
+    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> GetMyAdvertismentCopies(
             @PathVariable Long memberId
     ) {
-        advertisementCopyService.
-    }*/
+        Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
+                = advertisementCopyService.getRecentLoadAdvertisementCopy(memberId);
+
+        return ResponseEntity.ok(getRecentAdvertisementCopyResponses);
+    }
 
 
 
-    // 모든 광고카피 정보
+    // 최근 생성한 광고카피
     @GetMapping("/copies/mypage/{memberId}")
-    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> getMyAdvertismentCopies(
+    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> getMyAdvertisementCopies(
             @PathVariable Long memberId
     ) {
         Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses

@@ -59,6 +59,26 @@ public class AdvertisementCopyService {
     private final CopyGalleryRepository copyGalleryRepository;
 
 
+    public Slice<GetRecentAdvertisementCopyResponse> getRecentLoadAdvertisementCopy (
+            Long memberId
+    ) {
+        // 최근 날짜 순으로 20개 Slice.
+        Pageable pageable = PageRequest.of(0, 20, Sort.by("createdDate").descending());
+        Slice<CopyGallery> recentAdvertisementCopiesSlice = copyGalleryRepository.findByMemberIdOrderByCreatedDateDesc(memberId, pageable);
+
+        // Slice -> Response DTO로 변환.
+        List<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
+                = recentAdvertisementCopiesSlice.getContent().stream()
+                .map(advertisementCopy -> AdvertisementCopyResponse.of(advertisementCopy))
+                .map(advertisementCopyResponse -> GetRecentAdvertisementCopyResponse.builder()
+                        .advertisementCopies(Collections.singletonList(advertisementCopyResponse))
+                        .build())
+                .collect(Collectors.toList());
+
+        // Slice로 반환
+        return new SliceImpl<>(getRecentAdvertisementCopyResponses, pageable, recentAdvertisementCopiesSlice.hasNext());
+    }
+
     public Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopy (
             Long memberId
     ) {

@@ -1,5 +1,6 @@
 package kobako.backend.advertisementCopy.dto.response;
 
+import kobako.backend.CopyGallery.domain.CopyGallery;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.Tone;
@@ -28,4 +29,14 @@ public class AdvertisementCopyResponse {
                 .message(advertisementCopy.getMessage())
                 .build();
     }
+
+    public static AdvertisementCopyResponse of (CopyGallery copyGallery){
+        return AdvertisementCopyResponse.builder()
+                .advertisementCopyId(copyGallery.getAdvertisementCopy().getAdvertisementCopyId())
+                .service(copyGallery.getService())
+                .tone(copyGallery.getTone())
+                .message(copyGallery.getMessage())
+                .build();
+    }
+
 }
