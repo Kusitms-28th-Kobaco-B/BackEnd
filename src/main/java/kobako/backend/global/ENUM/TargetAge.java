@@ -1,11 +1,11 @@
 package kobako.backend.global.ENUM;
 
 public enum TargetAge {
-    ZERO,     // 0~9
-    TEN,      // 10~19
-    TWENTY,   // 20~29
-    THIRTY,   // 30~39
-    FORTY,    // 40~49
-    FIFTY,    // 50~59
+    ZERO,     // 10대 미만
+    TEN,      // 10대
+    TWENTY,   // 20대
+    THIRTY,   // 30대
+    FORTY,    // 40대
+    FIFTY,    // 50대
     SIXTY,    // 60대 이상
 }
