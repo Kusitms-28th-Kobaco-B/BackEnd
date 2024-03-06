@@ -7,8 +7,5 @@ public enum TargetAge {
     THIRTY,   // 30~39
     FORTY,    // 40~49
     FIFTY,    // 50~59
-    SIXTY,    // 60~69
-    SEVENTY,  // 70~79
-    EIGHTY,   // 80~89
-    NINETY    // 90~99
+    SIXTY,    // 60대 이상
 }
