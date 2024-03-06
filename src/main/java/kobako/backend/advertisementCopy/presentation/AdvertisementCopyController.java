@@ -39,12 +39,12 @@ public class AdvertisementCopyController {
 
     //생성
     @PostMapping("/copies")
-    public ResponseEntity<AdvertisementCopyResponse> generateAdvertisementCopy(
+    public void generateAdvertisementCopy(
             @RequestBody GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
-
-        AdvertisementCopyResponse advertisementCopyResponse =  advertisementCopyService.generateAdvertisementCopy(generateAdvertisementCopyRequest);
-        return ResponseEntity.ok(advertisementCopyResponse);
+        //AdvertisementCopyResponse advertisementCopyResponse =
+        advertisementCopyService.generateAdvertisementCopy(generateAdvertisementCopyRequest);
+        //return ResponseEntity.ok(advertisementCopyResponse);
     }
 
 

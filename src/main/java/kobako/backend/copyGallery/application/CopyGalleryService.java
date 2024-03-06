@@ -27,7 +27,7 @@ public class CopyGalleryService {
             Long memberId
     ) {
         // 최신 날짜 순으로 가져옴.
-        List<CopyGallery> recentAdvertisementCopies = copyGalleryRepository.findByMemberIdOrderByCreatedDateDesc(memberId);
+        List<CopyGallery> recentAdvertisementCopies = copyGalleryRepository.findByMember_MemberIdOrderByCreatedDateDesc(memberId);
 
         // List로 반환
         return AdvertisementCopyResponse.ofCopyGalleriesList(recentAdvertisementCopies);
@@ -40,7 +40,7 @@ public class CopyGalleryService {
         //최근 날짜 순으로 6개 Page.
         Pageable pageable = PageRequest.of(0, 6, Sort.by("createdDate").descending());
         Page<CopyGallery> searchedCopyGalleries
-                = copyGalleryRepository.findByServiceAndToneAndCreatedAtBetween(
+                = copyGalleryRepository.findByServiceAndToneAndCreatedDateBetween(
                         searchCopyGalleryRequest.getService(),
                         searchCopyGalleryRequest.getTone(),
                         searchCopyGalleryRequest.getStartDate(),
