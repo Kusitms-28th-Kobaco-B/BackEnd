@@ -5,7 +5,6 @@ import kobako.backend.advertisementCopy.application.AdvertisementCopyService;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.request.UpdateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
-import kobako.backend.advertisementCopy.dto.response.GetRecentAdvertisementCopyResponse;
 import kobako.backend.global.domain.RequestUri;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,59 +23,47 @@ public class AdvertisementCopyController {
     private final AdvertisementCopyService advertisementCopyService;
 
 
-    // 30일간의 광고카피 정보
-    /*@GetMapping("/copies/{memberId}")
-    public ResponseEntity<List> GetMyAdvertismentCopies(
+
+
+    // 최근 생성한 광고카피
+    @GetMapping("/copies/recent/{memberId}")
+    public ResponseEntity<List<AdvertisementCopyResponse>> getMyAdvertisementCopies(
             @PathVariable Long memberId
     ) {
-        advertisementCopyService.
-    }*/
+        List<AdvertisementCopyResponse> advertisementCopyResponses
+                = advertisementCopyService.getRecentAdvertisementCopy(memberId);
 
-
-
-    // 모든 광고카피 정보
-    @GetMapping("/copies/mypage/{memberId}")
-    public ResponseEntity<Slice<GetRecentAdvertisementCopyResponse>> GetMyAdvertismentCopies(
-            @PathVariable Long memberId
-    ) {
-        Slice<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
-                = advertisementCopyService.GetRecentAdvertisementCopy(memberId);
-
-        return ResponseEntity.ok(getRecentAdvertisementCopyResponses);
+        return ResponseEntity.ok(advertisementCopyResponses);
     }
 
-    /*@GetMapping("/copies")
-    public ResponseEntity<List> GetAllAdvertismentCopies(
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(required = false) Service service,
-            @RequestParam(required = false) Tone tone
-            ) {
-
-        advertisementCopyService.
-    }*/
 
     //생성
-    @PostMapping("/copy")
-    public ResponseEntity<AdvertisementCopyResponse> GenerateAdvertisementCopy(
+    @PostMapping("/copies")
+    public void generateAdvertisementCopy(
             @RequestBody GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
+        //AdvertisementCopyResponse advertisementCopyResponse =
+        advertisementCopyService.generateAdvertisementCopy(generateAdvertisementCopyRequest);
+        //return ResponseEntity.ok(advertisementCopyResponse);
+    }
 
-        AdvertisementCopyResponse advertisementCopyResponse =  advertisementCopyService.generateAdvertisementCopy(generateAdvertisementCopyRequest);
+
+    //저장
+    @PostMapping("/copies/{memberId}/{advertisementCopyId}")
+    public ResponseEntity<AdvertisementCopyResponse> LoadAdvertisementCopy(
+            @PathVariable Long memberId,
+            @PathVariable Long advertisementCopyId
+    ) {
+        AdvertisementCopyResponse advertisementCopyResponse
+                = advertisementCopyService.loadAdvertisementCopy(memberId, advertisementCopyId);
+
         return ResponseEntity.ok(advertisementCopyResponse);
     }
 
-    //저장
-    @PostMapping("/copy/{advertisementCopyId}")
-    public void LoadAdvertisementCopy(
-            @PathVariable Long advertisementCopyId
-    ) {
-
-    }
 
     //수정
-    @PatchMapping("/copy/{advertisementCopyId}")
-    public ResponseEntity<AdvertisementCopyResponse> UpdateAdvertisementCopy(
+    @PatchMapping("/copies/{advertisementCopyId}")
+    public ResponseEntity<AdvertisementCopyResponse> updateAdvertisementCopy(
             @PathVariable Long advertisementCopyId,
             @RequestBody UpdateAdvertisementCopyRequest updateAdvertisementCopyRequest
     ) {
@@ -85,9 +72,10 @@ public class AdvertisementCopyController {
         return ResponseEntity.ok(advertisementCopyResponse);
     }
 
+
     //삭제
     @DeleteMapping("/copies/{advertisementCopyId}")
-    public ResponseEntity DeleteAdvertisementCopies(
+    public ResponseEntity deleteAdvertisementCopies(
             @PathVariable Long advertisementCopyId
     ) {
         advertisementCopyService.deleteAdvertisementCopy(advertisementCopyId);

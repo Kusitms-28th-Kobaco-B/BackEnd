@@ -3,37 +3,39 @@ package kobako.backend.advertisementCopy.application;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kobako.backend.Member.infra.presistence.MemberRepository;
+import kobako.backend.copyGallery.domain.CopyGallery;
+import kobako.backend.copyGallery.infra.presistence.CopyGalleryRepository;
+import kobako.backend.member.infra.presistence.MemberRepository;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.request.UpdateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
-import kobako.backend.advertisementCopy.dto.response.GetRecentAdvertisementCopyResponse;
 import kobako.backend.advertisementCopy.infra.presistence.AdvertisementCopyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -54,76 +56,99 @@ public class AdvertisementCopyService {
 
     private final MemberRepository memberRepository;
     private final AdvertisementCopyRepository advertisementCopyRepository;
+    private final CopyGalleryRepository copyGalleryRepository;
 
 
-    public Slice<GetRecentAdvertisementCopyResponse> GetRecentAdvertisementCopy (
+
+    public List<AdvertisementCopyResponse> getRecentAdvertisementCopy (
             Long memberId
     ) {
-        // 최근 날짜 순으로 20개 Slice.
-        Pageable pageable = PageRequest.of(0, 20, Sort.by("createdDate").descending());
-        Slice<AdvertisementCopy> advertisementCopiesSlice = advertisementCopyRepository.findByMemberIdOrderByCreatedDateDesc(memberId, pageable);
+        // 사용자가 생성한 광고카피를 최신순으로 탐색
+        List<AdvertisementCopy> advertisementCopies = advertisementCopyRepository.findByMember_MemberIdOrderByCreatedDateDesc(memberId);
 
-        // Slice -> Response DTO로 변환.
-        List<GetRecentAdvertisementCopyResponse> getRecentAdvertisementCopyResponses
-                = advertisementCopiesSlice.getContent().stream()
-                .map(advertisementCopy -> AdvertisementCopyResponse.of(advertisementCopy))
-                .map(advertisementCopyResponse -> GetRecentAdvertisementCopyResponse.builder()
-                        .advertisementCopies(Collections.singletonList(advertisementCopyResponse))
-                        .build())
-                .collect(Collectors.toList());
-
-        // Slice로 반환
-        return new SliceImpl<>(getRecentAdvertisementCopyResponses, pageable, advertisementCopiesSlice.hasNext());
+        // List 반환
+        return AdvertisementCopyResponse.ofAdvertisementCopiesList(advertisementCopies);
     }
 
-    public AdvertisementCopyResponse generateAdvertisementCopy(
+    public void generateAdvertisementCopy(
             GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
-        String message = "";
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpPost httpPost = new HttpPost("https://clovastudio.apigw.ntruss.com/testapp/v1/completions/LK-D2");
+        JSONObject request_data = new JSONObject();
 
-            // Headers 설정
-            httpPost.addHeader("X-NCP-CLOVASTUDIO-API-KEY", clovaApiKey);  // CLOVA STUDIO API 키 설정
-            httpPost.addHeader("X-NCP-APIGW-API-KEY", apiGwKey);  // API Gateway API 키 설정
-            httpPost.addHeader("X-NCP-CLOVASTUDIO-REQUEST-ID", requestId);  // CLOVA STUDIO 요청 ID 설정
-            httpPost.addHeader("Content-Type", "application/json");  // 요청의 Content-Type 설정
+        request_data.put("text", """
+            광고 헤드카피를 만들어줘
+            
+            ##
+            상품: 현대자동차
+            키워드: 안전, 가족
+            타겟: 아버지
+            메시지: 당신 곁엔 언제나 든든한 현대자동차! 사랑하는 가족들을 매일매일 지켜줄 수 있습니다.
+            
+            ##
+            상품: 멀티비타민
+            키워드: 에너지, 건강
+            타겟: 학생
+            메시지: 멀티비타민으로 피로를 날려버리고 에너지 충전! 멀티비타민은 건강한 수험생활을 위한 필수조건!
+            
+            ##
+            상품: 허쉬 초콜릿
+            키워드: 달콤함, 스트레스 해소, 수능
+            타겟: 고등학생
+            메시지:
+            """);
 
-            // Request body 설정
-            String requestBody = "{\"text\":\"##\\n상품:현대자동차\\n키워드:안전,가족\\n메시지:현대자동차의 안전한 운전 환경과 가족 중심의 디자인은 정말 감명 깊어요. 가족 모두가 함께하는 여정을 안심하며 즐길 수 있어서 좋아요.\\n##\\n상품:멀티비타민\\n키워드:에너지\\n메시지:원래 건강기능식품 같은 거 잘 안 챙겨 먹는데 이건 꼭 먹어요. 야근과 회식 잦은 직장인들에게 필수템! 확실히 체력적으로 힘든게 덜 하네요.\\n##\\n상품:다짐 필라테스\\n키워드:휴식\\n메시지:무료 체험을 통해 다짐 필라테스의 매력을 느낄 수 있어요. 전문 강사와 함께 몸과 마음의 균형을 찾아낼 수 있어요.\\n##\\n상품:인터파크 동남아투어 패키지\\n키워드:특별 혜택 3종 세트\\n메시지:특별 혜택 3종 세트로 더욱 특별한 인터파크 동남아투어 패키지! 여행을 더욱 풍성하게 만들어준 최고의 선택이에요.\\n##\\n상품:초콜릿\\n키워드:달콤함,수능\\n메시지:\",\"start\":\"\",\"restart\":\"\",\"includeTokens\":true,\"topP\":0.8,\"topK\":0,\"maxTokens\":100,\"temperature\":0.6,\"repeatPenalty\":5.0,\"stopBefore\":[\"상품:\",\"##\"],\"includeAiFilters\":true}";
-            httpPost.setEntity(new StringEntity(requestBody));  // 요청 바디 설정
+        request_data.put("start", "");
+        request_data.put("restart", "");
+        request_data.put("includeTokens", true);
+        request_data.put("topP", 0.8);
+        request_data.put("topK", 0);
+        request_data.put("maxTokens", 100);
+        request_data.put("temperature", 0.5);
+        request_data.put("repeatPenalty", 5.0);
+        request_data.put("stopBefore", new ArrayList<>());
+        request_data.put("includeAiFilters", true);
 
-            // 요청 보내고 응답 받기
-            try (CloseableHttpResponse response = httpClient.execute(httpPost)) {
-                Header contentTypeHeader = response.getFirstHeader("Content-Type");
-                if (contentTypeHeader != null) {
-                    String contentType = contentTypeHeader.getValue();
-                    System.out.println("Content-Type: " + contentType);
-                }
+        RestTemplate restTemplate = new RestTemplate();
 
-                // 응답 바디를 문자열로 변환
-                InputStream inputStream = response.getEntity().getContent();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-                StringBuilder responseBody = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    responseBody.append(line);
-                }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("X-NCP-CLOVASTUDIO-API-KEY", clovaApiKey);
+        headers.set("X-NCP-APIGW-API-KEY", apiGwKey);
+        headers.set("X-NCP-CLOVASTUDIO-REQUEST-ID", requestId);
 
-                // JSON 파싱
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode jsonNode = mapper.readTree(responseBody.toString());
+        HttpEntity<String> entity = new HttpEntity<>(request_data.toString(), headers);
 
-                // "result" 객체 안의 "text" 값을 가져오기
-                message = jsonNode.get("result").get("text").asText();
-                log.info(message);  // 로그로 메시지 출력
-            }
-        } catch (Exception e) {
-            System.err.println("An error occurred: " + e.getMessage());  // 에러 발생 시 메시지 출력
-        }
+        ResponseEntity<String> response = restTemplate.postForEntity("https://clovastudio.apigw.ntruss.com/testapp/v1/completions/LK-D2", entity, String.class);
 
-        AdvertisementCopy advertisementCopy = advertisementCopyRepository.save(generateAdvertisementCopyRequest.toBodyCopy(message));  // 광고카피 저장
-        return AdvertisementCopyResponse.of(advertisementCopy);  // 광고카피 응답 생성
+        System.out.println(response);
+
+        // 맨 마지막 상품의 '메시지:' 이후의 텍스트 추출
+        /*String[] productSplit = response_text.split("##");
+        String lastProductInfo = productSplit[productSplit.length - 1].trim();
+        String message = lastProductInfo.substring(lastProductInfo.indexOf("메시지:") + 5).trim();
+        System.out.println(message);*/
+    }
+
+
+    public AdvertisementCopyResponse loadAdvertisementCopy(Long memberId, Long advertisementCopyId){
+
+        // 광고카피 탐색
+        AdvertisementCopy advertisementCopy = advertisementCopyRepository.findByMember_MemberIdAndAdvertisementCopyId(memberId, advertisementCopyId)
+                .orElseThrow(() -> new NoSuchElementException("AdvertisementCopy not found with id: " + advertisementCopyId));
+
+        // 카피갤러리 생성
+        CopyGallery copyGallery = CopyGallery.builder()
+                .advertisementCopy(advertisementCopy)
+                .member(advertisementCopy.getMember())
+                .service(advertisementCopy.getService())
+                .productName(advertisementCopy.getProductName())
+                .tone(advertisementCopy.getTone())
+                .views(0L)
+                .message(advertisementCopy.getMessage())
+                .build();
+        copyGalleryRepository.save(copyGallery);
+
+        return AdvertisementCopyResponse.of(advertisementCopy);
     }
 
 

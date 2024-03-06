@@ -1,28 +1,29 @@
-package kobako.backend.advertisementCopy.domain;
+package kobako.backend.copyGallery.domain;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
 import kobako.backend.member.domain.Member;
+import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.global.ENUM.Service;
-import kobako.backend.global.ENUM.TargetAge;
-import kobako.backend.global.ENUM.TargetGender;
 import kobako.backend.global.ENUM.Tone;
 import kobako.backend.global.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
-@Entity(name = "ADVERTISEMENT_COPY")
+@Entity(name = "COPY_GALLERY")
 @Getter
 @Setter
 @Builder
-public class AdvertisementCopy extends BaseEntity {
+public class CopyGallery extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long advertisementCopyId;
+    @Column(name = "copy_gallery_id")
+    private Long copyGalleryId;
+
+    @ManyToOne
+    @JoinColumn(name = "advertisementCopy_id")
+    private AdvertisementCopy advertisementCopy;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -31,21 +32,19 @@ public class AdvertisementCopy extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Service service;
 
-    private String projectName;
-
+    @Column(name = "product_name", length = 20)
     private String productName;
 
     @Enumerated(EnumType.STRING)
-    private TargetGender targetGender;
-
-    @Enumerated(EnumType.STRING)
-    private TargetAge targetAge;
-
     private Tone tone;
 
-    @ElementCollection
-    private List<String> keywords;
+    private Long views;
 
-    @Column(length = 500)
+    @Column(length = 300)
     private String message;
+
+    // 조회수 증가 메서드
+    public void increaseViews() {
+        this.views++;
+    }
 }

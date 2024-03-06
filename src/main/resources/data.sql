@@ -1,1 +1,0 @@
-INSERT INTO MEMBER (id, password) VALUES ('ADMIN', 'ADMIN123');
