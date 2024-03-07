@@ -18,5 +18,6 @@ public class SearchCopyGalleryRequest {
     private LocalDate endDate;
     private Service service;
     private Tone tone;
+    private String keyword;
 }
 

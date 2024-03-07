@@ -42,11 +42,12 @@ public class CopyGalleryController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) Service service,
-            @RequestParam(required = false) Tone tone
+            @RequestParam(required = false) Tone tone,
+            @RequestParam(required = false) String keyword
             ) {
 
         SearchCopyGalleryRequest searchCopyGalleryRequest
-                = new SearchCopyGalleryRequest(startDate, endDate, service, tone);
+                = new SearchCopyGalleryRequest(startDate, endDate, service, tone, keyword);
 
         Page<CopyGalleryResponse> copyGalleryResponsePage
                 = copyGalleryService.searchCopyGallery(searchCopyGalleryRequest);

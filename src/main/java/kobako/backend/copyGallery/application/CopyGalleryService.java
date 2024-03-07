@@ -41,11 +41,13 @@ public class CopyGalleryService {
         //최근 날짜 순으로 6개 Page.
         Pageable pageable = PageRequest.of(0, 6, Sort.by("createdDate").descending());
         Page<CopyGallery> searchedCopyGalleries
-                = copyGalleryRepository.findByServiceAndToneAndCreatedDateBetween(
+                = copyGalleryRepository.findByServiceAndToneAndKeywordsContainingAndCreatedDateBetween(
                         searchCopyGalleryRequest.getService(),
                         searchCopyGalleryRequest.getTone(),
+                        searchCopyGalleryRequest.getKeyword(),
                         searchCopyGalleryRequest.getStartDate(),
                         searchCopyGalleryRequest.getEndDate(),
+
                         pageable
         );
 

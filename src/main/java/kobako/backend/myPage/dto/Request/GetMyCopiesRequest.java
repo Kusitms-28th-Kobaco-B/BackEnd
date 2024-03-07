@@ -17,6 +17,5 @@ public class GetMyCopiesRequest {
     private Long memberId;
     private Service service;
     private Tone tone;
-    private String keyword;
 }
 
