@@ -53,4 +53,3 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-//INSERT INTO MEMBER (id, password) VALUES ('ADMIN', 'ADMIN123');

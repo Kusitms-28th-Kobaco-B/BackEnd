@@ -22,6 +22,7 @@ public class AdvertisementCopy extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "advertisement_copy_id")
     private Long advertisementCopyId;
 
     @ManyToOne
@@ -31,16 +32,21 @@ public class AdvertisementCopy extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Service service;
 
+    @Column(name = "project_name")
     private String projectName;
 
+    @Column(name = "product_name")
     private String productName;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "target_gender")
     private TargetGender targetGender;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "target_age")
     private TargetAge targetAge;
 
+    @Enumerated(EnumType.STRING)
     private Tone tone;
 
     @ElementCollection

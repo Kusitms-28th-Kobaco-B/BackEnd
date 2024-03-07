@@ -1,10 +1,12 @@
 package kobako.backend.advertisementCopy.application;
 
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kobako.backend.copyGallery.domain.CopyGallery;
 import kobako.backend.copyGallery.infra.presistence.CopyGalleryRepository;
+import kobako.backend.global.prompt.PromptSetter;
 import kobako.backend.member.infra.presistence.MemberRepository;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
@@ -20,6 +22,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +38,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -73,40 +78,8 @@ public class AdvertisementCopyService {
     public void generateAdvertisementCopy(
             GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
-        JSONObject request_data = new JSONObject();
 
-        request_data.put("text", """
-            광고 헤드카피를 만들어줘
-            
-            ##
-            상품: 현대자동차
-            키워드: 안전, 가족
-            타겟: 아버지
-            메시지: 당신 곁엔 언제나 든든한 현대자동차! 사랑하는 가족들을 매일매일 지켜줄 수 있습니다.
-            
-            ##
-            상품: 멀티비타민
-            키워드: 에너지, 건강
-            타겟: 학생
-            메시지: 멀티비타민으로 피로를 날려버리고 에너지 충전! 멀티비타민은 건강한 수험생활을 위한 필수조건!
-            
-            ##
-            상품: 허쉬 초콜릿
-            키워드: 달콤함, 스트레스 해소, 수능
-            타겟: 고등학생
-            메시지:
-            """);
-
-        request_data.put("start", "");
-        request_data.put("restart", "");
-        request_data.put("includeTokens", true);
-        request_data.put("topP", 0.8);
-        request_data.put("topK", 0);
-        request_data.put("maxTokens", 100);
-        request_data.put("temperature", 0.5);
-        request_data.put("repeatPenalty", 5.0);
-        request_data.put("stopBefore", new ArrayList<>());
-        request_data.put("includeAiFilters", true);
+        JSONObject request_data = PromptSetter.GeneratePrompt(generateAdvertisementCopyRequest);
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -122,11 +95,17 @@ public class AdvertisementCopyService {
 
         System.out.println(response);
 
-        // 맨 마지막 상품의 '메시지:' 이후의 텍스트 추출
-        /*String[] productSplit = response_text.split("##");
-        String lastProductInfo = productSplit[productSplit.length - 1].trim();
-        String message = lastProductInfo.substring(lastProductInfo.indexOf("메시지:") + 5).trim();
-        System.out.println(message);*/
+        JSONParser parser = new JSONParser();
+        try {
+            JSONObject json = (JSONObject) parser.parse(response.getBody());
+
+            JSONObject result = (JSONObject) json.get("result");
+            String outputText = ((String) result.get("outputText")).trim();
+
+            System.out.println(outputText);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
