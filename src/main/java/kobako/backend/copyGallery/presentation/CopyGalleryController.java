@@ -7,6 +7,7 @@ import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.Tone;
 import kobako.backend.global.domain.RequestUri;
+import kobako.backend.swaggerUi.CopyGalleryUi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,15 +16,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping(value = RequestUri.copyGallery)
 @RequiredArgsConstructor
-public class CopyGalleryController {
+public class CopyGalleryController implements CopyGalleryUi {
 
-    private static CopyGalleryService copyGalleryService;
+    private final CopyGalleryService copyGalleryService;
 
     // 최근 저장한 광고카피
     @GetMapping("/recent-loaded/{memberId}")
