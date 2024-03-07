@@ -6,16 +6,14 @@ import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.Tone;
 import kobako.backend.global.base.BaseEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity(name = "COPY_GALLERY")
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 public class CopyGallery extends BaseEntity {
 
     @Id
@@ -47,6 +45,21 @@ public class CopyGallery extends BaseEntity {
 
     @ElementCollection
     private List<String> keywords;
+
+
+    @Builder
+    public CopyGallery(Long copyGalleryId, AdvertisementCopy advertisementCopy, Member member, Service service, String productName, Tone tone, Long views, String message, List<String> keywords) {
+        super();
+        this.copyGalleryId = copyGalleryId;
+        this.advertisementCopy = advertisementCopy;
+        this.member = member;
+        this.service = service;
+        this.productName = productName;
+        this.tone = tone;
+        this.views = views;
+        this.message = message;
+        this.keywords = keywords;
+    }
 
 
 

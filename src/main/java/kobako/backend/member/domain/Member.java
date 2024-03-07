@@ -7,13 +7,14 @@ import jakarta.persistence.Id;
 import kobako.backend.global.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 @Entity(name ="MEMBER")
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 public class Member extends BaseEntity {
 
     @Id
@@ -23,4 +24,13 @@ public class Member extends BaseEntity {
     private String id;
 
     private String password;
+
+    @Builder
+    public Member(Long memberId, String id, String password) {
+        this.memberId = memberId;
+        this.id = id;
+        this.password = password;
+    }
+
+
 }
