@@ -19,5 +19,6 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
     Page<CopyGallery> findByServiceAndToneAndCreatedDateBetween(Service service, Tone tone, LocalDate startDate, LocalDate endDate, Pageable pageable);
 
     //조건에 맞는 마이카피 탐색
-    Page<CopyGallery> findByMember_MemberIdAndServiceAndToneOrderByCreatedDateDesc(Long memberId, Service service, Tone tone, Pageable pageable);
+    Page<CopyGallery> findByMember_MemberIdAndServiceAndToneAndKeywordsContainingOrderByCreatedDateDesc(Long memberId, Service service, Tone tone, String keyword, Pageable pageable);
+
 }

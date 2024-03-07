@@ -37,6 +37,7 @@ public class CopyGalleryService {
     public Page<CopyGalleryResponse> searchCopyGallery(
             SearchCopyGalleryRequest searchCopyGalleryRequest
     ) {
+
         //최근 날짜 순으로 6개 Page.
         Pageable pageable = PageRequest.of(0, 6, Sort.by("createdDate").descending());
         Page<CopyGallery> searchedCopyGalleries

@@ -36,10 +36,11 @@ public class MyPageService {
         //최근 날짜 순으로 6개 Page.
         Pageable pageable = PageRequest.of(0, 6, Sort.by("createdDate").descending());
         Page<CopyGallery> myCopiesPage
-                = copyGalleryRepository.findByMember_MemberIdAndServiceAndToneOrderByCreatedDateDesc(
+                = copyGalleryRepository.findByMember_MemberIdAndServiceAndToneAndKeywordsContainingOrderByCreatedDateDesc(
                         getMyCopiesRequest.getMemberId(),
                         getMyCopiesRequest.getService(),
                         getMyCopiesRequest.getTone(),
+                        getMyCopiesRequest.getKeyword(),
                         pageable
         );
 

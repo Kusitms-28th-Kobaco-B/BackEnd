@@ -123,6 +123,7 @@ public class AdvertisementCopyService {
                 .productName(advertisementCopy.getProductName())
                 .tone(advertisementCopy.getTone())
                 .views(0L)
+                .keywords(advertisementCopy.getKeywords())
                 .message(advertisementCopy.getMessage())
                 .build();
         copyGalleryRepository.save(copyGallery);
