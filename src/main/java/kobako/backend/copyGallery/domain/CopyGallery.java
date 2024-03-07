@@ -22,7 +22,7 @@ public class CopyGallery extends BaseEntity {
     private Long copyGalleryId;
 
     @ManyToOne
-    @JoinColumn(name = "advertisementCopy_id")
+    @JoinColumn(name = "advertisement_copy_id")
     private AdvertisementCopy advertisementCopy;
 
     @ManyToOne
