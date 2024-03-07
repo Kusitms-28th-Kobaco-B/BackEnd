@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity(name = "COPY_GALLERY")
 @Getter
 @Setter
@@ -42,6 +44,11 @@ public class CopyGallery extends BaseEntity {
 
     @Column(length = 300)
     private String message;
+
+    @ElementCollection
+    private List<String> keywords;
+
+
 
     // 조회수 증가 메서드
     public void increaseViews() {
