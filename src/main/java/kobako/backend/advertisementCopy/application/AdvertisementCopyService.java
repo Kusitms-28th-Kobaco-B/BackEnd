@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kobako.backend.copyGallery.domain.CopyGallery;
 import kobako.backend.copyGallery.infra.presistence.CopyGalleryRepository;
 import kobako.backend.global.prompt.PromptSetter;
+import kobako.backend.member.domain.Member;
 import kobako.backend.member.infra.presistence.MemberRepository;
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
@@ -75,9 +76,14 @@ public class AdvertisementCopyService {
         return AdvertisementCopyResponse.ofAdvertisementCopiesList(advertisementCopies);
     }
 
-    public void generateAdvertisementCopy(
+    public AdvertisementCopyResponse generateAdvertisementCopy(
+            Long memberId,
             GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found with id: " + memberId));
+
 
         JSONObject request_data = PromptSetter.GeneratePrompt(generateAdvertisementCopyRequest);
 
@@ -93,8 +99,6 @@ public class AdvertisementCopyService {
 
         ResponseEntity<String> response = restTemplate.postForEntity("https://clovastudio.apigw.ntruss.com/testapp/v1/completions/LK-D2", entity, String.class);
 
-        System.out.println(response);
-
         JSONParser parser = new JSONParser();
         try {
             JSONObject json = (JSONObject) parser.parse(response.getBody());
@@ -102,9 +106,16 @@ public class AdvertisementCopyService {
             JSONObject result = (JSONObject) json.get("result");
             String outputText = ((String) result.get("outputText")).trim();
 
-            System.out.println(outputText);
+            log.info(outputText);
+
+            AdvertisementCopy advertisementCopy
+                            = advertisementCopyRepository.save(generateAdvertisementCopyRequest.toAdvertismentCopy(member,outputText));
+
+            return AdvertisementCopyResponse.of(advertisementCopy);
+
         } catch (ParseException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
@@ -115,6 +126,9 @@ public class AdvertisementCopyService {
         AdvertisementCopy advertisementCopy = advertisementCopyRepository.findByMember_MemberIdAndAdvertisementCopyId(memberId, advertisementCopyId)
                 .orElseThrow(() -> new NoSuchElementException("AdvertisementCopy not found with id: " + advertisementCopyId));
 
+        // List<String>은 따로 복사해서 다시 넣기.
+        List<String> keywords = new ArrayList<>(advertisementCopy.getKeywords());
+
         // 카피갤러리 생성
         CopyGallery copyGallery = CopyGallery.builder()
                 .advertisementCopy(advertisementCopy)
@@ -123,7 +137,7 @@ public class AdvertisementCopyService {
                 .productName(advertisementCopy.getProductName())
                 .tone(advertisementCopy.getTone())
                 .views(0L)
-                .keywords(advertisementCopy.getKeywords())
+                .keywords(keywords)
                 .message(advertisementCopy.getMessage())
                 .build();
         copyGalleryRepository.save(copyGallery);

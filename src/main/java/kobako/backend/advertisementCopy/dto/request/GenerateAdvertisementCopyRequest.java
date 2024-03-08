@@ -3,6 +3,7 @@ package kobako.backend.advertisementCopy.dto.request;
 
 import kobako.backend.advertisementCopy.domain.AdvertisementCopy;
 import kobako.backend.global.ENUM.*;
+import kobako.backend.member.domain.Member;
 import lombok.*;
 
 import java.util.List;
@@ -23,9 +24,10 @@ public class GenerateAdvertisementCopyRequest {
 
 
 
-    public AdvertisementCopy toBodyCopy(String message){
+    public AdvertisementCopy toAdvertismentCopy(Member member, String message){
         return AdvertisementCopy.builder()
                 .service(this.service)
+                .member(member)
                 .projectName(this.projectName)
                 .productName(this.productName)
                 .targetGender(this.targetGender)
