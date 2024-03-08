@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
@@ -26,8 +27,8 @@ public abstract class BaseEntity {
 	@CreatedDate
 	@JsonFormat(
 		shape = STRING,
-		pattern = "yyyy-MM-dd a HH:mm")
-	private LocalDateTime createdDate;
+		pattern = "yyyy-MM-dd")
+	private LocalDate createdDate;
 
 	@Column(
 		nullable = false,
@@ -36,6 +37,6 @@ public abstract class BaseEntity {
 	@LastModifiedDate
 	@JsonFormat(
 		shape = STRING,
-		pattern = "yyyy-MM-dd a HH:mm")
-	private LocalDateTime updatedDate;
+		pattern = "yyyy-MM-dd")
+	private LocalDate updatedDate;
 }
