@@ -19,6 +19,8 @@ public class DataLabService {
 
     @Value("${naver.datalab.base-url}")
     private String baseUrl;
+    private final String trendBaseUrl = "/datalab/search";
+    private final String shoppingBaseUrl = "/datalab/shopping/categories";
 
     public DatalabSearchResponse search(DatalabSearchRequest request) {
         WebClient webClient = WebClient.builder()
@@ -27,7 +29,22 @@ public class DataLabService {
             .defaultHeader("X-Naver-Client-Secret", clientSecret)
             .build();
 
-        return webClient.post().uri("/datalab/search")
+        return webClient.post().uri(trendBaseUrl)
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(DataLabRequest.of(request.startDate(), request.endDate(), request.keyword()))
+            .retrieve()
+            .bodyToMono(DatalabSearchResponse.class)
+            .block();
+    }
+
+    public DatalabSearchResponse shoppingInsight(DatalabSearchRequest request) {
+        WebClient webClient = WebClient.builder()
+            .baseUrl(baseUrl)
+            .defaultHeader("X-Naver-Client-Id", clientId)
+            .defaultHeader("X-Naver-Client-Secret", clientSecret)
+            .build();
+
+        return webClient.post().uri(shoppingBaseUrl)
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(DataLabRequest.of(request.startDate(), request.endDate(), request.keyword()))
             .retrieve()
