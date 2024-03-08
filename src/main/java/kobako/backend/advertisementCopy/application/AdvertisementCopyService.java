@@ -122,6 +122,10 @@ public class AdvertisementCopyService {
 
     public AdvertisementCopyResponse loadAdvertisementCopy(Long memberId, Long advertisementCopyId){
 
+        // 이미 저장된 광고 카피면 Exception 발생
+        copyGalleryRepository.findByAdvertisementCopy_AdvertisementCopyId(advertisementCopyId)
+                .ifPresent(existingCopyGallery -> {throw new IllegalArgumentException("AdvertisementCopy already exists in CopyGallery");});
+
         // 광고카피 탐색
         AdvertisementCopy advertisementCopy = advertisementCopyRepository.findByMember_MemberIdAndAdvertisementCopyId(memberId, advertisementCopyId)
                 .orElseThrow(() -> new NoSuchElementException("AdvertisementCopy not found with id: " + advertisementCopyId));
