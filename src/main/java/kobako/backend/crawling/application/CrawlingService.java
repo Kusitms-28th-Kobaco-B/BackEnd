@@ -1,7 +1,7 @@
 package kobako.backend.crawling.application;
 
 import java.util.ArrayList;
-import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingRequest;
+import java.util.List;
 import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingResponse;
 import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingResponse;
 import kobako.backend.crawling.presentation.dto.YoutubeCrawlingResponse;
@@ -36,8 +36,7 @@ public class CrawlingService {
             brandReputationCrawlingResponse, associatedKeywords);
     }
 
-    public void getYoutubeInformation(CharacterAnalysisRequest request) {
-        ArrayList<YoutubeCrawlingResponse> youtubeCrawlingResponse = youtubeCrawlingService.searchByKeyword(
-            request);
+    public List<YoutubeCrawlingResponse> getYoutubeInformation(String keyword) {
+        return youtubeCrawlingService.searchByKeyword(keyword);
     }
 }

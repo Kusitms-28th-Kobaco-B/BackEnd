@@ -25,7 +25,7 @@ class YoutubeCrawlingTest {
 
         // when
         ArrayList<YoutubeCrawlingResponse> response = youtubeCrawlingService.searchByKeyword(
-            request);
+            keyword);
 
         // then
         Assertions.assertThat(response.size()).isEqualTo(numberOfVideos);

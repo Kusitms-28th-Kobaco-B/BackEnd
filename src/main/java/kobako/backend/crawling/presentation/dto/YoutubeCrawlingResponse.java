@@ -10,6 +10,7 @@ import lombok.Setter;
 public class YoutubeCrawlingResponse {
 
     private String imageUrl;
+    private String href;
     private String title;
 
 }
