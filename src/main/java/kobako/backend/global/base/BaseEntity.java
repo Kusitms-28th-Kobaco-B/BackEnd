@@ -20,23 +20,24 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 public abstract class BaseEntity {
 
 	@Column(
-		nullable = false,
-		insertable = false,
-		updatable = false,
-		columnDefinition = "datetime default CURRENT_TIMESTAMP")
+			nullable = false,
+			insertable = false,
+			updatable = false,
+			columnDefinition = "date default CURRENT_DATE")
 	@CreatedDate
 	@JsonFormat(
-		shape = STRING,
-		pattern = "yyyy-MM-dd")
+			shape = JsonFormat.Shape.STRING,
+			pattern = "yyyy-MM-dd")
 	private LocalDate createdDate;
 
 	@Column(
-		nullable = false,
-		insertable = false,
-		columnDefinition = "datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+			nullable = false,
+			insertable = false,
+			columnDefinition = "date default CURRENT_DATE on update CURRENT_DATE")
 	@LastModifiedDate
 	@JsonFormat(
-		shape = STRING,
-		pattern = "yyyy-MM-dd")
+			shape = JsonFormat.Shape.STRING,
+			pattern = "yyyy-MM-dd")
 	private LocalDate updatedDate;
 }
+

@@ -9,7 +9,6 @@ import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
 import kobako.backend.copyGallery.dto.Response.CopyGalleryResponse;
 import kobako.backend.global.ENUM.Service;
 import kobako.backend.global.ENUM.Tone;
-import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "카피 갤러리", description = "광고 카피 갤러리 API")
@@ -39,7 +37,7 @@ public interface CopyGalleryUi {
             @ApiResponse(responseCode = "400", description = "잘못된 요청")
     })
     @GetMapping("/search")
-    ResponseEntity<Page<CopyGalleryResponse>> GetAllAdvertismentCopies(
+    ResponseEntity<List<CopyGalleryResponse>> GetAllAdvertismentCopies(
             @Parameter(description = "시작 날짜") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @Parameter(description = "종료 날짜") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @Parameter(description = "서비스") @RequestParam(required = false) Service service,

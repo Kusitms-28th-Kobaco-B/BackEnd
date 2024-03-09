@@ -40,10 +40,9 @@ public class CopyGalleryService {
 
         //최근 날짜 순으로 List
         List<CopyGallery> searchedCopyGalleries
-                = copyGalleryRepository.findByServiceAndToneAndKeywordsContainingAndCreatedDateBetween(
+                = copyGalleryRepository.findByServiceAndToneAndCreatedDateBetween(
                         searchCopyGalleryRequest.getService(),
                         searchCopyGalleryRequest.getTone(),
-                        searchCopyGalleryRequest.getKeyword(),
                         searchCopyGalleryRequest.getStartDate(),
                         searchCopyGalleryRequest.getEndDate()
         );

@@ -27,8 +27,9 @@ public interface AdvertisementCopyUi {
     );
 
     @Operation(summary = "새로운 광고카피 생성")
-    @PostMapping("/copies")
-    void generateAdvertisementCopy(
+    @PostMapping("/copies/{memberId}")
+    ResponseEntity<AdvertisementCopyResponse> generateAdvertisementCopy(
+            @PathVariable Long memberId,
             @RequestBody GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     );
 
@@ -46,9 +47,4 @@ public interface AdvertisementCopyUi {
             @RequestBody UpdateAdvertisementCopyRequest updateAdvertisementCopyRequest
     );
 
-    @Operation(summary = "광고카피 삭제")
-    @DeleteMapping("/copies/{advertisementCopyId}")
-    ResponseEntity deleteAdvertisementCopies(
-            @Parameter(description = "광고카피 ID", required = true) @PathVariable Long advertisementCopyId
-    );
 }

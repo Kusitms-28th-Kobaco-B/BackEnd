@@ -120,6 +120,23 @@ public class AdvertisementCopyService {
     }
 
 
+
+
+
+    public AdvertisementCopyResponse updateAdvertisementCopy(
+            Long advertisementCopyId,
+            UpdateAdvertisementCopyRequest updateAdvertisementCopyRequest
+    ) {
+
+        AdvertisementCopy advertisementCopy = advertisementCopyRepository.findById(advertisementCopyId)
+                .orElseThrow(() -> new NoSuchElementException("AdvertisementCopy not found with id: " + advertisementCopyId));
+
+        advertisementCopy.setMessage(updateAdvertisementCopyRequest.getMessage());
+        advertisementCopyRepository.save(advertisementCopy);
+
+        return AdvertisementCopyResponse.of(advertisementCopy);
+    }
+
     public AdvertisementCopyResponse loadAdvertisementCopy(Long memberId, Long advertisementCopyId){
 
         // 이미 저장된 광고 카피면 Exception 발생
@@ -149,21 +166,5 @@ public class AdvertisementCopyService {
         return AdvertisementCopyResponse.of(advertisementCopy);
     }
 
-
-
-
-    public AdvertisementCopyResponse updateAdvertisementCopy(
-            Long advertisementCopyId,
-            UpdateAdvertisementCopyRequest updateAdvertisementCopyRequest
-    ) {
-
-        AdvertisementCopy advertisementCopy = advertisementCopyRepository.findById(advertisementCopyId)
-                .orElseThrow(() -> new NoSuchElementException("AdvertisementCopy not found with id: " + advertisementCopyId));
-
-        advertisementCopy.setMessage(updateAdvertisementCopyRequest.getMessage());
-        advertisementCopyRepository.save(advertisementCopy);
-
-        return AdvertisementCopyResponse.of(advertisementCopy);
-    }
 
 }

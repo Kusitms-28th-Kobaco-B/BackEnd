@@ -23,7 +23,7 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
     Optional<CopyGallery> findByAdvertisementCopy_AdvertisementCopyId(Long advertisementCopyId);
 
     //조건에 맞는 카피갤러리 탐색
-    List<CopyGallery> findByServiceAndToneAndKeywordsContainingAndCreatedDateBetween(Service service, Tone tone, String keyword, LocalDate startDate, LocalDate endDate);
+    List<CopyGallery> findByServiceAndToneAndCreatedDateBetween(Service service, Tone tone, LocalDate startDate, LocalDate endDate);
 
 
     //조건에 맞는 마이카피 탐색
