@@ -27,14 +27,15 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
             "(:tone IS NULL OR c.tone = :tone) AND " +
             "(:startDate IS NULL OR c.createdDate >= :startDate) AND " +
             "(:endDate IS NULL OR c.createdDate <= :endDate) AND " +
-            "(:keyword IS NULL OR k IN :keywords)")
+            "(:keywords IS NULL OR k IN :keywords)")
     List<CopyGallery> findByServiceAndToneAndCreatedDateBetweenAndKeywordsIn(
-                    @Param("service") Service service,
-                    @Param("tone") Tone tone,
-                    @Param("startDate") LocalDate startDate,
-                    @Param("endDate") LocalDate endDate,
-                    @Param("keywords") List<String> keywords
+            @Param("service") Service service,
+            @Param("tone") Tone tone,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate,
+            @Param("keywords") List<String> keywords
     );
+
 
 
     @Query("SELECT c FROM COPY_GALLERY c WHERE " +
