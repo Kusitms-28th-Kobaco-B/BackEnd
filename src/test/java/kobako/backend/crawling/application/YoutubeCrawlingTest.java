@@ -3,6 +3,7 @@ package kobako.backend.crawling.application;
 import java.util.ArrayList;
 import kobako.backend.crawling.presentation.dto.YoutubeCrawlingRequest;
 import kobako.backend.crawling.presentation.dto.YoutubeCrawlingResponse;
+import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ class YoutubeCrawlingTest {
         // given
         String keyword = "이민정";
         int numberOfVideos = 6;
-        YoutubeCrawlingRequest request = new YoutubeCrawlingRequest(keyword,
-            numberOfVideos);
+        CharacterAnalysisRequest request = new CharacterAnalysisRequest("20240101", "20240301",
+            keyword);
 
         // when
         ArrayList<YoutubeCrawlingResponse> response = youtubeCrawlingService.searchByKeyword(

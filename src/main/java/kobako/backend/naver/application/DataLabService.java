@@ -1,7 +1,8 @@
 package kobako.backend.naver.application;
 
+import java.text.SimpleDateFormat;
+import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
 import kobako.backend.naver.presentation.dto.DataLabRequest;
-import kobako.backend.naver.presentation.dto.DatalabSearchRequest;
 import kobako.backend.naver.presentation.dto.DatalabSearchResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -22,7 +23,7 @@ public class DataLabService {
     private final String trendBaseUrl = "/datalab/search";
     private final String shoppingBaseUrl = "/datalab/shopping/categories";
 
-    public DatalabSearchResponse search(DatalabSearchRequest request) {
+    public DatalabSearchResponse search(CharacterAnalysisRequest request) {
         WebClient webClient = WebClient.builder()
             .baseUrl(baseUrl)
             .defaultHeader("X-Naver-Client-Id", clientId)
@@ -31,13 +32,13 @@ public class DataLabService {
 
         return webClient.post().uri(trendBaseUrl)
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(DataLabRequest.of(request.startDate(), request.endDate(), request.keyword()))
+            .bodyValue(DataLabRequest.of(convertToFormattedDate(request.startDate()), convertToFormattedDate(request.endDate()), request.keyword()))
             .retrieve()
             .bodyToMono(DatalabSearchResponse.class)
             .block();
     }
 
-    public DatalabSearchResponse shoppingInsight(DatalabSearchRequest request) {
+    public DatalabSearchResponse shoppingInsight(CharacterAnalysisRequest request) {
         WebClient webClient = WebClient.builder()
             .baseUrl(baseUrl)
             .defaultHeader("X-Naver-Client-Id", clientId)
@@ -50,5 +51,9 @@ public class DataLabService {
             .retrieve()
             .bodyToMono(DatalabSearchResponse.class)
             .block();
+    }
+
+    private String convertToFormattedDate(String date) {
+        return date.substring(0, 4) + "-" + date.substring(4, 6) + "-" + date.substring(6, 8);
     }
 }

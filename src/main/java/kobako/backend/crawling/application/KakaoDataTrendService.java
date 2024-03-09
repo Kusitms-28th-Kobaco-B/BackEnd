@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingRequest;
 import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingResponse;
+import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,7 +21,7 @@ public class KakaoDataTrendService {
     private final String kakaoDataTrendBaseUri = "https://datatrend.kakao.com/result";
 
     public KakaoDataTrendCrawlingResponse crawlKakaoDataTrend(
-        KakaoDataTrendCrawlingRequest request) {
+        CharacterAnalysisRequest request) {
         WebDriver webDriver = null;
         try {
             String encodedKeyword = URLEncoder.encode(request.keyword(), "UTF-8");

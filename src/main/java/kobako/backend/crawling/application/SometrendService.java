@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import kobako.backend.crawling.domain.BrandReputation;
 import kobako.backend.crawling.presentation.dto.SometrendRequest;
+import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +25,7 @@ public class SometrendService {
 
     private final String sometrendBaseUrl = "https://some.co.kr/analysis/social/association";
 
-    public ArrayList<String> crawlSometrend(SometrendRequest request) {
+    public ArrayList<String> crawlSometrend(CharacterAnalysisRequest request) {
         WebDriver webDriver = null;
         ArrayList<String> associatedKeywords = new ArrayList<>();
         try {

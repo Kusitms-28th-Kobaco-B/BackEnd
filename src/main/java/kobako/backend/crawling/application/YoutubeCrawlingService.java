@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import kobako.backend.crawling.presentation.dto.YoutubeCrawlingRequest;
 import kobako.backend.crawling.presentation.dto.YoutubeCrawlingResponse;
+import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,7 +16,7 @@ public class YoutubeCrawlingService {
 
     private final String youtubeSearchUrl = "https://www.youtube.com/results?search_query=";
 
-    public ArrayList<YoutubeCrawlingResponse> searchByKeyword(YoutubeCrawlingRequest request) {
+    public ArrayList<YoutubeCrawlingResponse> searchByKeyword(CharacterAnalysisRequest request) {
         System.setProperty("webdriver.chrome.driver", "/Users/gundorit/chromedriver");
         WebDriver driver = new ChromeDriver();
         ArrayList<YoutubeCrawlingResponse> responses = new ArrayList<>();
@@ -31,7 +32,8 @@ public class YoutubeCrawlingService {
             int count = 0;
             for (WebElement video : videoElements) {
 	count++;
-	if (count > request.numberOfVideos()) {
+	final int numbersOfVideo = 6;
+	if (count > numbersOfVideo) {
 	    break;
 	}
 

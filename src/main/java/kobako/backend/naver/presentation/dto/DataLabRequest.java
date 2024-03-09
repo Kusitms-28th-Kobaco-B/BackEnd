@@ -29,7 +29,7 @@ public class DataLabRequest {
     private DataLabRequest(String startDate, String endDate, String keyword) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.timeUnit = "date";
+        this.timeUnit = "month";
         this.keywordGroups = new ArrayList<>();
         keywordGroups.add(new KeywordGroup(keyword, new String[]{keyword}));
     }
