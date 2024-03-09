@@ -10,13 +10,11 @@ import kobako.backend.global.domain.RequestUri;
 import kobako.backend.swaggerUi.CopyGalleryUi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -40,7 +38,7 @@ public class CopyGalleryController implements CopyGalleryUi {
 
     // 카피 갤러리 검색
     @GetMapping("/search")
-    public ResponseEntity<Page<CopyGalleryResponse>> GetAllAdvertismentCopies(
+    public ResponseEntity<List<CopyGalleryResponse>> GetAllAdvertismentCopies(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) Service service,
@@ -51,10 +49,10 @@ public class CopyGalleryController implements CopyGalleryUi {
         SearchCopyGalleryRequest searchCopyGalleryRequest
                 = new SearchCopyGalleryRequest(startDate, endDate, service, tone, keyword);
 
-        Page<CopyGalleryResponse> copyGalleryResponsePage
+        List<CopyGalleryResponse> copyGalleryResponseList
                 = copyGalleryService.searchCopyGallery(searchCopyGalleryRequest);
 
-        return ResponseEntity.ok(copyGalleryResponsePage);
+        return ResponseEntity.ok(copyGalleryResponseList);
     }
 
 

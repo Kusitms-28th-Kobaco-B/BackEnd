@@ -30,19 +30,17 @@ public class MyPageService {
 
 
     // 마이 카피 탐색
-    public Page<GetMyCopiesResponse> getMyCopies(
+    public List<GetMyCopiesResponse> getMyCopies(
             GetMyCopiesRequest getMyCopiesRequest
     ) {
-        //최근 날짜 순으로 6개 Page.
-        Pageable pageable = PageRequest.of(0, 6, Sort.by("createdDate").descending());
-        Page<CopyGallery> myCopiesPage
+        //최근 날짜 순으로 List
+        List<CopyGallery> myCopiesPage
                 = copyGalleryRepository.findByMember_MemberIdAndServiceAndToneOrderByCreatedDateDesc(
                         getMyCopiesRequest.getMemberId(),
                         getMyCopiesRequest.getService(),
-                        getMyCopiesRequest.getTone(),
-                        pageable
+                        getMyCopiesRequest.getTone()
         );
 
-        return GetMyCopiesResponse.ofMyCopiesPage(myCopiesPage);
+        return GetMyCopiesResponse.ofMyCopiesList(myCopiesPage);
     }
 }
