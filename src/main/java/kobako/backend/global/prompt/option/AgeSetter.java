@@ -1,6 +1,6 @@
 package kobako.backend.global.prompt.option;
 
-import kobako.backend.global.ENUM.TargetAge;
+import kobako.backend.global.enums.TargetAge;
 
 public class AgeSetter {
     public static String settingAge(TargetAge targetAge){

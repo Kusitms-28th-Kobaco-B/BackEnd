@@ -2,9 +2,8 @@ package kobako.backend.crawling.application;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingRequest;
-import kobako.backend.crawling.presentation.dto.KakaoDataTrendCrawlingResponse;
-import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
+import kobako.backend.crawling.presentation.dto.response.KakaoDataTrendCrawlingResponse;
+import kobako.backend.naver.presentation.dto.request.CharacterAnalysisRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

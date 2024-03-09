@@ -1,9 +1,8 @@
 package kobako.backend.naver.application;
 
-import java.text.SimpleDateFormat;
-import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
-import kobako.backend.naver.presentation.dto.DataLabRequest;
-import kobako.backend.naver.presentation.dto.DatalabSearchResponse;
+import kobako.backend.naver.presentation.dto.request.CharacterAnalysisRequest;
+import kobako.backend.naver.presentation.dto.response.DataLabRequest;
+import kobako.backend.naver.presentation.dto.response.DatalabSearchResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
