@@ -1,4 +1,4 @@
-package kobako.backend.mypage.presentation.dto.response;
+package kobako.backend.myPage.dto.response;
 
 import kobako.backend.gallery.domain.CopyGallery;
 import kobako.backend.global.enums.Service;

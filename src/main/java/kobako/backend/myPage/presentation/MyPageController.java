@@ -1,12 +1,12 @@
-package kobako.backend.mypage.presentation;
+package kobako.backend.myPage.presentation;
 
 
 import kobako.backend.global.enums.Service;
 import kobako.backend.global.enums.Tone;
 import kobako.backend.global.domain.RequestUri;
-import kobako.backend.mypage.application.MyPageService;
-import kobako.backend.mypage.presentation.dto.request.GetMyCopiesRequest;
-import kobako.backend.mypage.presentation.dto.response.GetMyCopiesResponse;
+import kobako.backend.myPage.application.MyPageService;
+import kobako.backend.myPage.dto.request.GetMyCopiesRequest;
+import kobako.backend.myPage.dto.response.GetMyCopiesResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = RequestUri.myPage)
 @RequiredArgsConstructor
-public class MyPageController implements MyPageUi {
+public class MyPageController implements MyPageUi{
 
     private final MyPageService myPageService;
 

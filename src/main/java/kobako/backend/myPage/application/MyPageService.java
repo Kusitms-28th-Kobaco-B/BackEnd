@@ -1,15 +1,15 @@
-package kobako.backend.mypage.application;
+package kobako.backend.myPage.application;
 
 import kobako.backend.gallery.domain.CopyGallery;
 import kobako.backend.gallery.infra.persistence.CopyGalleryRepository;
-import kobako.backend.mypage.presentation.dto.request.GetMyCopiesRequest;
-import kobako.backend.mypage.presentation.dto.response.GetMyCopiesResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+import kobako.backend.myPage.dto.request.GetMyCopiesRequest;
+import kobako.backend.myPage.dto.response.GetMyCopiesResponse;
 
 @Slf4j
 @Service
