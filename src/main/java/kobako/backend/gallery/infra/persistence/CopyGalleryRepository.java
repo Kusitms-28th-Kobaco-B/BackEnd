@@ -4,6 +4,8 @@ import kobako.backend.gallery.domain.CopyGallery;
 import kobako.backend.global.enums.Service;
 import kobako.backend.global.enums.Tone;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -20,7 +22,9 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
     Optional<CopyGallery> findByAdvertisementCopy_AdvertisementCopyId(Long advertisementCopyId);
 
     //조건에 맞는 카피갤러리 탐색
-    List<CopyGallery> findByServiceAndToneAndCreatedDateBetween(Service service, Tone tone, LocalDate startDate, LocalDate endDate);
+    @Query("SELECT c FROM COPY_GALLERY c WHERE c.service = :service AND c.tone = :tone AND c.createdDate BETWEEN :startDate AND :endDate")
+    List<CopyGallery> findByServiceAndToneAndCreatedDateBetween(@Param("service") Service service, @Param("tone") Tone tone, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
 
 
     //조건에 맞는 마이카피 탐색
