@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +19,6 @@ public class SearchCopyGalleryRequest {
     private LocalDate endDate;
     private Service service;
     private Tone tone;
-    private String keyword;
+    private List<String> keywords;
 }
 

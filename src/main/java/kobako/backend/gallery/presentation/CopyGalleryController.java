@@ -42,11 +42,11 @@ public class CopyGalleryController implements CopyGalleryUi {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) Service service,
             @RequestParam(required = false) Tone tone,
-            @RequestParam(required = false) String keyword
+            @RequestParam(required = false) List<String> keywords
             ) {
 
         SearchCopyGalleryRequest searchCopyGalleryRequest
-                = new SearchCopyGalleryRequest(startDate, endDate, service, tone, keyword);
+                = new SearchCopyGalleryRequest(startDate, endDate, service, tone, keywords);
 
         List<CopyGalleryResponse> copyGalleryResponseList
                 = copyGalleryService.searchCopyGallery(searchCopyGalleryRequest);

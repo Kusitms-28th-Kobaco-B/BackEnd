@@ -22,13 +22,32 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
     Optional<CopyGallery> findByAdvertisementCopy_AdvertisementCopyId(Long advertisementCopyId);
 
     //조건에 맞는 카피갤러리 탐색
-    @Query("SELECT c FROM COPY_GALLERY c WHERE " +
-            "(:service IS NULL OR c.service = :service) OR " +
-            "(:tone IS NULL OR c.tone = :tone) OR " +
-            "(:startDate IS NULL OR c.createdDate >= :startDate) OR " +
-            "(:endDate IS NULL OR c.createdDate <= :endDate)")
-    List<CopyGallery> findByServiceAndToneAndCreatedDateBetween(@Param("service") Service service, @Param("tone") Tone tone, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    @Query("SELECT c FROM COPY_GALLERY c JOIN c.keywords k WHERE " +
+            "(:service IS NULL OR c.service = :service) AND " +
+            "(:tone IS NULL OR c.tone = :tone) AND " +
+            "(:startDate IS NULL OR c.createdDate >= :startDate) AND " +
+            "(:endDate IS NULL OR c.createdDate <= :endDate) AND " +
+            "(:keyword IS NULL OR k IN :keywords)")
+    List<CopyGallery> findByServiceAndToneAndCreatedDateBetweenAndKeywordsIn(
+                    @Param("service") Service service,
+                    @Param("tone") Tone tone,
+                    @Param("startDate") LocalDate startDate,
+                    @Param("endDate") LocalDate endDate,
+                    @Param("keywords") List<String> keywords
+    );
 
+
+    @Query("SELECT c FROM COPY_GALLERY c WHERE " +
+            "(:service IS NULL OR c.service = :service) AND " +
+            "(:tone IS NULL OR c.tone = :tone) AND " +
+            "(:startDate IS NULL OR c.createdDate >= :startDate) AND " +
+            "(:endDate IS NULL OR c.createdDate <= :endDate)")
+    List<CopyGallery> findByServiceAndToneAndCreatedDateBetween(
+                    @Param("service") Service service,
+                    @Param("tone") Tone tone,
+                    @Param("startDate") LocalDate startDate,
+                    @Param("endDate") LocalDate endDate
+    );
 
 
     //조건에 맞는 마이카피 탐색
