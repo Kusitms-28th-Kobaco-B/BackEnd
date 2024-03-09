@@ -21,8 +21,8 @@ public class GetMyCopiesResponse {
     private Tone tone;
     private String message;
 
-    public static Page<GetMyCopiesResponse> ofMyCopiesPage (Page<CopyGallery> copyGalleriesPage) {
-        List<GetMyCopiesResponse> copyGalleryResponses = copyGalleriesPage.getContent().stream()
+    public static List<GetMyCopiesResponse> ofMyCopiesList(List<CopyGallery> copyGalleriesList) {
+        List<GetMyCopiesResponse> copyGalleryResponses = copyGalleriesList.stream()
                 .map(copyGallery -> GetMyCopiesResponse.builder()
                         .advertisementCopyId(copyGallery.getAdvertisementCopy().getAdvertisementCopyId())
                         .service(copyGallery.getService())
@@ -31,8 +31,8 @@ public class GetMyCopiesResponse {
                         .build())
                 .collect(Collectors.toList());
 
-        // 변환된 AdvertisementCopyResponse를 slice로 변환
-        return new PageImpl<>(copyGalleryResponses, copyGalleriesPage.getPageable(), copyGalleriesPage.getTotalElements());
+        return copyGalleryResponses;
     }
+
 }
 

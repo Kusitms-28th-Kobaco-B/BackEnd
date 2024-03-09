@@ -6,6 +6,7 @@ import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyReq
 import kobako.backend.advertisementCopy.dto.request.UpdateAdvertisementCopyRequest;
 import kobako.backend.advertisementCopy.dto.response.AdvertisementCopyResponse;
 import kobako.backend.global.domain.RequestUri;
+import kobako.backend.swaggerUi.AdvertisementCopyUi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Slice;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = RequestUri.advertisement)
 @RequiredArgsConstructor
-public class AdvertisementCopyController {
+public class AdvertisementCopyController implements AdvertisementCopyUi {
 
     private final AdvertisementCopyService advertisementCopyService;
 
@@ -38,13 +39,14 @@ public class AdvertisementCopyController {
 
 
     //생성
-    @PostMapping("/copies")
-    public void generateAdvertisementCopy(
+    @PostMapping("/copies/{memberId}")
+    public ResponseEntity<AdvertisementCopyResponse> generateAdvertisementCopy(
+            @PathVariable Long memberId,
             @RequestBody GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
-        //AdvertisementCopyResponse advertisementCopyResponse =
-        advertisementCopyService.generateAdvertisementCopy(generateAdvertisementCopyRequest);
-        //return ResponseEntity.ok(advertisementCopyResponse);
+        AdvertisementCopyResponse advertisementCopyResponse =
+                        advertisementCopyService.generateAdvertisementCopy(memberId, generateAdvertisementCopyRequest);
+        return ResponseEntity.ok(advertisementCopyResponse);
     }
 
 
@@ -71,17 +73,6 @@ public class AdvertisementCopyController {
         AdvertisementCopyResponse advertisementCopyResponse = advertisementCopyService.updateAdvertisementCopy(advertisementCopyId, updateAdvertisementCopyRequest);
         return ResponseEntity.ok(advertisementCopyResponse);
     }
-
-
-    //삭제
-    @DeleteMapping("/copies/{advertisementCopyId}")
-    public ResponseEntity deleteAdvertisementCopies(
-            @PathVariable Long advertisementCopyId
-    ) {
-        advertisementCopyService.deleteAdvertisementCopy(advertisementCopyId);
-        return ResponseEntity.ok().build();
-    }
-
 
 
 }

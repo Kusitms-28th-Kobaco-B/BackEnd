@@ -10,6 +10,7 @@ import kobako.backend.global.ENUM.Tone;
 import kobako.backend.global.base.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 @Entity(name = "ADVERTISEMENT_COPY")
 @Getter
 @Setter
+@NoArgsConstructor
 @Builder
 public class AdvertisementCopy extends BaseEntity {
 
@@ -54,4 +56,19 @@ public class AdvertisementCopy extends BaseEntity {
 
     @Column(length = 500)
     private String message;
+
+    @Builder
+    public AdvertisementCopy(Long advertisementCopyId, Member member, Service service, String projectName, String productName, TargetGender targetGender, TargetAge targetAge, Tone tone, List<String> keywords, String message) {
+        super();
+        this.advertisementCopyId = advertisementCopyId;
+        this.member = member;
+        this.service = service;
+        this.projectName = projectName;
+        this.productName = productName;
+        this.targetGender = targetGender;
+        this.targetAge = targetAge;
+        this.tone = tone;
+        this.keywords = keywords;
+        this.message = message;
+    }
 }

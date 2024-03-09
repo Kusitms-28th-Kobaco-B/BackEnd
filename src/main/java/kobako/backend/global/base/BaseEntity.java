@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
@@ -19,23 +20,24 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 public abstract class BaseEntity {
 
 	@Column(
-		nullable = false,
-		insertable = false,
-		updatable = false,
-		columnDefinition = "datetime default CURRENT_TIMESTAMP")
+			nullable = false,
+			insertable = false,
+			updatable = false,
+			columnDefinition = "date default CURRENT_DATE")
 	@CreatedDate
 	@JsonFormat(
-		shape = STRING,
-		pattern = "yyyy-MM-dd a HH:mm")
-	private LocalDateTime createdDate;
+			shape = JsonFormat.Shape.STRING,
+			pattern = "yyyy-MM-dd")
+	private LocalDate createdDate;
 
 	@Column(
-		nullable = false,
-		insertable = false,
-		columnDefinition = "datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+			nullable = false,
+			insertable = false,
+			columnDefinition = "date default CURRENT_DATE on update CURRENT_DATE")
 	@LastModifiedDate
 	@JsonFormat(
-		shape = STRING,
-		pattern = "yyyy-MM-dd a HH:mm")
-	private LocalDateTime updatedDate;
+			shape = JsonFormat.Shape.STRING,
+			pattern = "yyyy-MM-dd")
+	private LocalDate updatedDate;
 }
+

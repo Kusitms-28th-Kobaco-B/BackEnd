@@ -27,8 +27,8 @@ public class CopyGalleryResponse {
 
 
 
-    public static Page<CopyGalleryResponse> ofCopyGalleriesPage (Page<CopyGallery> copyGalleriesPage) {
-        List<CopyGalleryResponse> copyGalleryResponses = copyGalleriesPage.getContent().stream()
+    public static List<CopyGalleryResponse> ofCopyGalleriesList(List<CopyGallery> copyGalleriesList) {
+        List<CopyGalleryResponse> copyGalleryResponses = copyGalleriesList.stream()
                 .map(copyGallery -> CopyGalleryResponse.builder()
                         .advertisementCopyId(copyGallery.getAdvertisementCopy().getAdvertisementCopyId())
                         .service(copyGallery.getService())
@@ -38,10 +38,6 @@ public class CopyGalleryResponse {
                         .build())
                 .collect(Collectors.toList());
 
-        // 변환된 AdvertisementCopyResponse를 slice로 변환
-        return new PageImpl<>(copyGalleryResponses, copyGalleriesPage.getPageable(), copyGalleriesPage.getTotalElements());
+        return copyGalleryResponses;
     }
-
-
-
 }
