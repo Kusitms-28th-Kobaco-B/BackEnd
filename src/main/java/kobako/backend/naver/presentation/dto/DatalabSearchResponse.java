@@ -1,6 +1,7 @@
 package kobako.backend.naver.presentation.dto;
 
 import java.util.List;
+import kobako.backend.naver.domain.SearchVolume;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,14 +20,11 @@ public class DatalabSearchResponse {
 
         private String title;
         private List<String> keywords;
-        private List<Data> data;
+        private List<SearchVolume> data;
     }
 
-    @Getter
-    @Setter
-    public static class Data {
-
-        private String period;
-        private double ratio;
+    public List<SearchVolume> getSearchVolumes() {
+        final int initialIndex = 0;
+        return results.get(initialIndex).getData();
     }
 }

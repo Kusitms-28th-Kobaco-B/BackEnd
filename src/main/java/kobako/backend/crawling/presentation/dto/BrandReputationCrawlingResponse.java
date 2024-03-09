@@ -1,5 +1,8 @@
 package kobako.backend.crawling.presentation.dto;
 
-public record BrandReputationCrawlingResponse(String category, int rank, String keyword) {
+import java.util.List;
+import kobako.backend.crawling.domain.BrandReputation;
+
+public record BrandReputationCrawlingResponse(String category, int rank, List<BrandReputation> highestThreePeople) {
 
 }
