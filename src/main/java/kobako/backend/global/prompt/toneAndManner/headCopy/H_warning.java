@@ -1,8 +1,8 @@
 package kobako.backend.global.prompt.toneAndManner.headCopy;
 
-import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
-import kobako.backend.global.ENUM.TargetAge;
-import kobako.backend.global.ENUM.TargetGender;
+import kobako.backend.advertisement.dto.request.GenerateAdvertisementCopyRequest;
+import kobako.backend.global.enums.TargetAge;
+import kobako.backend.global.enums.TargetGender;
 import kobako.backend.global.prompt.option.AgeSetter;
 import kobako.backend.global.prompt.option.GenderSetter;
 import kobako.backend.global.prompt.option.KeywordSetter;

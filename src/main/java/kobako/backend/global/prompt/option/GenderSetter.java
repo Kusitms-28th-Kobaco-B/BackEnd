@@ -1,6 +1,6 @@
 package kobako.backend.global.prompt.option;
 
-import kobako.backend.global.ENUM.TargetGender;
+import kobako.backend.global.enums.TargetGender;
 
 public class GenderSetter {
     public static String settingGender(TargetGender targetGender){

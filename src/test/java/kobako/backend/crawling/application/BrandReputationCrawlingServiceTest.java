@@ -1,12 +1,9 @@
 package kobako.backend.crawling.application;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 import kobako.backend.crawling.domain.BrandReputation;
-import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingRequest;
-import kobako.backend.crawling.presentation.dto.BrandReputationCrawlingResponse;
-import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
+import kobako.backend.crawling.presentation.dto.response.BrandReputationCrawlingResponse;
+import kobako.backend.naver.presentation.dto.request.CharacterAnalysisRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

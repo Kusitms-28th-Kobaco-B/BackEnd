@@ -1,9 +1,8 @@
 package kobako.backend.crawling.application;
 
 import java.util.ArrayList;
-import kobako.backend.crawling.presentation.dto.YoutubeCrawlingRequest;
-import kobako.backend.crawling.presentation.dto.YoutubeCrawlingResponse;
-import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
+import kobako.backend.crawling.presentation.dto.response.YoutubeCrawlingResponse;
+import kobako.backend.naver.presentation.dto.request.CharacterAnalysisRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
