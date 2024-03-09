@@ -3,7 +3,7 @@ package kobako.backend.crawling.application;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import kobako.backend.crawling.presentation.dto.YoutubeCrawlingResponse;
+import kobako.backend.crawling.presentation.dto.response.YoutubeCrawlingResponse;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

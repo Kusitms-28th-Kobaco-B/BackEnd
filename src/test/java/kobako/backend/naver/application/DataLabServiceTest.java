@@ -1,7 +1,7 @@
 package kobako.backend.naver.application;
 
-import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
-import kobako.backend.naver.presentation.dto.DatalabSearchResponse;
+import kobako.backend.naver.presentation.dto.request.CharacterAnalysisRequest;
+import kobako.backend.naver.presentation.dto.response.DatalabSearchResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

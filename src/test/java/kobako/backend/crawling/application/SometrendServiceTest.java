@@ -1,8 +1,7 @@
 package kobako.backend.crawling.application;
 
 import java.util.ArrayList;
-import kobako.backend.crawling.presentation.dto.SometrendRequest;
-import kobako.backend.naver.presentation.dto.CharacterAnalysisRequest;
+import kobako.backend.naver.presentation.dto.request.CharacterAnalysisRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

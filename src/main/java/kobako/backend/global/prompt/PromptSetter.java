@@ -1,8 +1,8 @@
 package kobako.backend.global.prompt;
 
-import kobako.backend.advertisementCopy.dto.request.GenerateAdvertisementCopyRequest;
-import kobako.backend.global.ENUM.Service;
-import kobako.backend.global.ENUM.Tone;
+import kobako.backend.advertisement.dto.request.GenerateAdvertisementCopyRequest;
+import kobako.backend.global.enums.Service;
+import kobako.backend.global.enums.Tone;
 import kobako.backend.global.prompt.toneAndManner.bodyCopy.*;
 import kobako.backend.global.prompt.toneAndManner.headCopy.*;
 import org.json.simple.JSONObject;
