@@ -21,6 +21,6 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI().servers(List.of(
-            new Server().url("http://3.35.60.56:8080/").description("Kobako API Server")));
+            new Server().url("http://3.37.128.99:8080/").description("Kobako API Server")));
     }
 }

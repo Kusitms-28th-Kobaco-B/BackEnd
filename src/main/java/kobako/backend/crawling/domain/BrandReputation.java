@@ -1,20 +1,21 @@
 package kobako.backend.crawling.domain;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BrandReputation {
 
     int rank;
     String name;
+    String description;
 
-    public BrandReputation(int rank, String name) {
-        this.rank = rank;
-        this.name = name;
+    public static BrandReputation of(int rank, String name, String category) {
+        return new BrandReputation(rank, name, category);
     }
 }
