@@ -1,4 +1,4 @@
-package kobako.backend.mypage.presentation;
+package kobako.backend.myPage.presentation;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kobako.backend.global.enums.Service;
 import kobako.backend.global.enums.Tone;
-import kobako.backend.mypage.presentation.dto.response.GetMyCopiesResponse;
+import kobako.backend.myPage.dto.response.GetMyCopiesResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

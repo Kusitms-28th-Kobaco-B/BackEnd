@@ -42,7 +42,7 @@ public interface CopyGalleryUi {
             @Parameter(description = "종료 날짜") @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @Parameter(description = "서비스") @RequestParam(required = false) Service service,
             @Parameter(description = "톤앤매너") @RequestParam(required = false) Tone tone,
-            @Parameter(description = "키워드") @RequestParam(required = false) String keyword
+            @Parameter(description = "키워드") @RequestParam(required = false) List<String> keywords
     );
 
 }

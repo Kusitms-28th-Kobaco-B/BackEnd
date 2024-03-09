@@ -36,15 +36,32 @@ public class CopyGalleryService {
     public List<CopyGalleryResponse> searchCopyGallery(
             SearchCopyGalleryRequest searchCopyGalleryRequest
     ) {
+        List<CopyGallery> searchedCopyGalleries;
 
-        //최근 날짜 순으로 List
-        List<CopyGallery> searchedCopyGalleries
-                = copyGalleryRepository.findByServiceAndToneAndCreatedDateBetween(
-                        searchCopyGalleryRequest.getService(),
-                        searchCopyGalleryRequest.getTone(),
-                        searchCopyGalleryRequest.getStartDate(),
-                        searchCopyGalleryRequest.getEndDate()
-        );
+        System.out.println(searchCopyGalleryRequest.getKeywords());
+
+        /// 키워드 리스트가 비어 있는지 확인
+        if (searchCopyGalleryRequest.getKeywords() == null || searchCopyGalleryRequest.getKeywords().isEmpty()) {
+
+            System.out.println("1");
+            // 키워드 리스트가 비어 있으면 키워드를 검색 조건에서 제외
+            searchedCopyGalleries = copyGalleryRepository.findByServiceAndToneAndCreatedDateBetween(
+                    searchCopyGalleryRequest.getService(),
+                    searchCopyGalleryRequest.getTone(),
+                    searchCopyGalleryRequest.getStartDate(),
+                    searchCopyGalleryRequest.getEndDate()
+            );
+        } else {
+            System.out.println("2");
+            // 키워드 리스트가 비어 있지 않으면 기존 로직 사용
+            searchedCopyGalleries = copyGalleryRepository.findByServiceAndToneAndCreatedDateBetweenAndKeywordsIn(
+                    searchCopyGalleryRequest.getService(),
+                    searchCopyGalleryRequest.getTone(),
+                    searchCopyGalleryRequest.getStartDate(),
+                    searchCopyGalleryRequest.getEndDate(),
+                    searchCopyGalleryRequest.getKeywords()
+            );
+        }
 
         // 각 페이지네이션된 CopyGallery 조회수 1 증가.
         for (CopyGallery copyGallery : searchedCopyGalleries) {

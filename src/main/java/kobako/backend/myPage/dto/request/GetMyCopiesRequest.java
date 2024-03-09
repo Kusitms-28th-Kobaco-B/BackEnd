@@ -1,4 +1,4 @@
-package kobako.backend.mypage.presentation.dto.request;
+package kobako.backend.myPage.dto.request;
 
 import kobako.backend.global.enums.Service;
 import kobako.backend.global.enums.Tone;
