@@ -166,14 +166,4 @@ public class AdvertisementCopyService {
         return AdvertisementCopyResponse.of(advertisementCopy);
     }
 
-    public void deleteAdvertisementCopy(
-            Long advertisementCopyId
-    ) {
-        if (!advertisementCopyRepository.existsById(advertisementCopyId)) {
-            //추후 오류 추가
-            throw new NoSuchElementException("AdvertisementCopy not found with id: " + advertisementCopyId);
-        }
-
-        advertisementCopyRepository.deleteById(advertisementCopyId);
-    }
 }

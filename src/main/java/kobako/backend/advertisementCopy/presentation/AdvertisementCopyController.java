@@ -75,15 +75,4 @@ public class AdvertisementCopyController implements AdvertisementCopyUi {
     }
 
 
-    //삭제
-    @DeleteMapping("/copies/{advertisementCopyId}")
-    public ResponseEntity deleteAdvertisementCopies(
-            @PathVariable Long advertisementCopyId
-    ) {
-        advertisementCopyService.deleteAdvertisementCopy(advertisementCopyId);
-        return ResponseEntity.ok().build();
-    }
-
-
-
 }
