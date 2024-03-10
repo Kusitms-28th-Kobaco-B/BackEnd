@@ -28,7 +28,8 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
             "(:tone IS NULL OR c.tone = :tone) AND " +
             "(:startDate IS NULL OR c.createdDate >= :startDate) AND " +
             "(:endDate IS NULL OR c.createdDate <= :endDate) AND " +
-            "(:keywords IS NULL OR k IN :keywords)")
+            "(:keywords IS NULL OR k IN :keywords) " +
+            "ORDER BY c.createdDate DESC")
     List<CopyGallery> findByServiceAndToneAndCreatedDateBetweenAndKeywordsIn(
             @Param("service") Service service,
             @Param("tone") Tone tone,
@@ -39,11 +40,13 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
 
 
 
+
     @Query("SELECT c FROM COPY_GALLERY c WHERE " +
             "(:service IS NULL OR c.service = :service) AND " +
             "(:tone IS NULL OR c.tone = :tone) AND " +
             "(:startDate IS NULL OR c.createdDate >= :startDate) AND " +
-            "(:endDate IS NULL OR c.createdDate <= :endDate)")
+            "(:endDate IS NULL OR c.createdDate <= :endDate)" +
+            "ORDER BY c.createdDate DESC")
     List<CopyGallery> findByServiceAndToneAndCreatedDateBetween(
                     @Param("service") Service service,
                     @Param("tone") Tone tone,
@@ -52,7 +55,16 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
     );
 
 
-    //조건에 맞는 마이카피 탐색
-    List<CopyGallery> findByMember_MemberIdAndServiceAndToneOrderByCreatedDateDesc(Long memberId, Service service, Tone tone);
+    // 조건에 맞는 카피 갤러리 탐색
+    @Query("SELECT c FROM COPY_GALLERY c " +
+            "WHERE (:memberId IS NULL OR c.member.memberId = :memberId) " +
+            "AND (:service IS NULL OR c.service = :service) " +
+            "AND (:tone IS NULL OR c.tone = :tone) " +
+            "ORDER BY c.createdDate DESC")
+    List<CopyGallery> findByMemberIdAndServiceAndToneOrderByCreatedDateDesc(
+            @Param("memberId") Long memberId,
+            @Param("service") Service service,
+            @Param("tone") Tone tone
+    );
 
 }

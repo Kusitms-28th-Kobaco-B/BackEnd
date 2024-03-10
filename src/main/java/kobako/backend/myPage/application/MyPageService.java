@@ -28,7 +28,7 @@ public class MyPageService {
     ) {
         //최근 날짜 순으로 List
         List<CopyGallery> myCopiesPage
-                = copyGalleryRepository.findByMember_MemberIdAndServiceAndToneOrderByCreatedDateDesc(
+                = copyGalleryRepository.findByMemberIdAndServiceAndToneOrderByCreatedDateDesc(
                         getMyCopiesRequest.getMemberId(),
                         getMyCopiesRequest.getService(),
                         getMyCopiesRequest.getTone()
