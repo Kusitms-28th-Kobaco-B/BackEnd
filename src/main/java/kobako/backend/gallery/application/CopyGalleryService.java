@@ -48,8 +48,8 @@ public class CopyGalleryService {
             searchedCopyGalleries = copyGalleryRepository.findByServiceAndToneAndCreatedDateBetween(
                     searchCopyGalleryRequest.getService(),
                     searchCopyGalleryRequest.getTone(),
-                    searchCopyGalleryRequest.getStartDate(),
-                    searchCopyGalleryRequest.getEndDate()
+                    searchCopyGalleryRequest.getStartDate().atStartOfDay(),
+                    searchCopyGalleryRequest.getEndDate().atTime(23, 59, 59)
             );
         } else {
             System.out.println("2");
@@ -57,8 +57,8 @@ public class CopyGalleryService {
             searchedCopyGalleries = copyGalleryRepository.findByServiceAndToneAndCreatedDateBetweenAndKeywordsIn(
                     searchCopyGalleryRequest.getService(),
                     searchCopyGalleryRequest.getTone(),
-                    searchCopyGalleryRequest.getStartDate(),
-                    searchCopyGalleryRequest.getEndDate(),
+                    searchCopyGalleryRequest.getStartDate().atStartOfDay(),
+                    searchCopyGalleryRequest.getEndDate().atTime(23, 59, 59),
                     searchCopyGalleryRequest.getKeywords()
             );
         }

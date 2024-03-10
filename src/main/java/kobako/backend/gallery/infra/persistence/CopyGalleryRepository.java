@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,8 +32,8 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
     List<CopyGallery> findByServiceAndToneAndCreatedDateBetweenAndKeywordsIn(
             @Param("service") Service service,
             @Param("tone") Tone tone,
-            @Param("startDate") LocalDate startDate,
-            @Param("endDate") LocalDate endDate,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
             @Param("keywords") List<String> keywords
     );
 
@@ -46,8 +47,8 @@ public interface CopyGalleryRepository extends JpaRepository<CopyGallery, Long> 
     List<CopyGallery> findByServiceAndToneAndCreatedDateBetween(
                     @Param("service") Service service,
                     @Param("tone") Tone tone,
-                    @Param("startDate") LocalDate startDate,
-                    @Param("endDate") LocalDate endDate
+                    @Param("startDate") LocalDateTime startDate,
+                    @Param("endDate") LocalDateTime endDate
     );
 
 

@@ -23,21 +23,21 @@ public abstract class BaseEntity {
 			nullable = false,
 			insertable = false,
 			updatable = false,
-			columnDefinition = "date default CURRENT_DATE")
+			columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
 	@CreatedDate
 	@JsonFormat(
 			shape = JsonFormat.Shape.STRING,
-			pattern = "yyyy-MM-dd")
-	private LocalDate createdDate;
+			pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime createdDate;
 
 	@Column(
 			nullable = false,
 			insertable = false,
-			columnDefinition = "date default CURRENT_DATE on update CURRENT_DATE")
+			columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 	@LastModifiedDate
 	@JsonFormat(
 			shape = JsonFormat.Shape.STRING,
-			pattern = "yyyy-MM-dd")
-	private LocalDate updatedDate;
+			pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime updatedDate;
 }
 

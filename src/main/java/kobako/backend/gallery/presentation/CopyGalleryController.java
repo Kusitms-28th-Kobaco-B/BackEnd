@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -44,6 +45,8 @@ public class CopyGalleryController implements CopyGalleryUi {
             @RequestParam(required = false) Tone tone,
             @RequestParam(required = false) List<String> keywords
             ) {
+
+
 
         SearchCopyGalleryRequest searchCopyGalleryRequest
                 = new SearchCopyGalleryRequest(startDate, endDate, service, tone, keywords);
