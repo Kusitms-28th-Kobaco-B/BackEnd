@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Slf4j
@@ -114,11 +115,19 @@ public class AdvertisementCopyService {
             UpdateAdvertisementCopyRequest updateAdvertisementCopyRequest
     ) {
 
+        // 광고카피 수정
         AdvertisementCopy advertisementCopy = advertisementCopyRepository.findById(advertisementCopyId)
                 .orElseThrow(() -> new NoSuchElementException("AdvertisementCopy not found with id: " + advertisementCopyId));
-
         advertisementCopy.setMessage(updateAdvertisementCopyRequest.getMessage());
         advertisementCopyRepository.save(advertisementCopy);
+
+        // 카피갤러리 수정
+        Optional<CopyGallery> copyGalleryOptional = copyGalleryRepository.findByAdvertisementCopy_AdvertisementCopyId(advertisementCopyId);
+        if(copyGalleryOptional.isPresent()){
+            CopyGallery copyGallery = copyGalleryOptional.get();
+            copyGallery.setMessage(updateAdvertisementCopyRequest.getMessage());
+            copyGalleryRepository.save(copyGallery);
+        }
 
         return AdvertisementCopyResponse.of(advertisementCopy);
     }
