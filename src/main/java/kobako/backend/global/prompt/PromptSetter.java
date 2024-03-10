@@ -5,13 +5,27 @@ import kobako.backend.global.enums.Service;
 import kobako.backend.global.enums.Tone;
 import kobako.backend.global.prompt.toneAndManner.bodyCopy.*;
 import kobako.backend.global.prompt.toneAndManner.headCopy.*;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 
+import java.time.LocalDateTime;
+
+@Slf4j
 public class PromptSetter {
     public static JSONObject GeneratePrompt(
             GenerateAdvertisementCopyRequest generateAdvertisementCopyRequest
     ) {
         Service service = generateAdvertisementCopyRequest.getService();
+        log.info("현재 시간: {}, Service: {}, ProjectName: {}, ProductName: {}, TargetGender: {}, TargetAge: {}, Keywords: {}, Tone: {}",
+                LocalDateTime.now(),
+                generateAdvertisementCopyRequest.getService(),
+                generateAdvertisementCopyRequest.getProjectName(),
+                generateAdvertisementCopyRequest.getProductName(),
+                generateAdvertisementCopyRequest.getTargetGender(),
+                generateAdvertisementCopyRequest.getTargetAge(),
+                generateAdvertisementCopyRequest.getKeyword(),
+                generateAdvertisementCopyRequest.getTone());
+
         Tone tone = generateAdvertisementCopyRequest.getTone();
 
         switch (service) {
