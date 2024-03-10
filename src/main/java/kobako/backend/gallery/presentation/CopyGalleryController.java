@@ -14,13 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping(value = RequestUri.copyGallery)
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://kobaco.vercel.app", allowedHeaders = "*")
 public class CopyGalleryController implements CopyGalleryUi {
 
     private final CopyGalleryService copyGalleryService;

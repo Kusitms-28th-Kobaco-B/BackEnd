@@ -10,6 +10,7 @@ import kobako.backend.myPage.dto.response.GetMyCopiesResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = RequestUri.myPage)
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://kobaco.vercel.app", allowedHeaders = "*")
 public class MyPageController implements MyPageUi{
 
     private final MyPageService myPageService;

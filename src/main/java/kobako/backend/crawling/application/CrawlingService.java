@@ -39,4 +39,8 @@ public class CrawlingService {
     public List<YoutubeCrawlingResponse> getYoutubeInformation(String keyword) {
         return youtubeCrawlingService.searchByKeyword(keyword);
     }
+
+    public BrandReputationCrawlingResponse getBrandReputation(CharacterAnalysisRequest request) {
+        return brandReputationCrawlingService.getHighestBrandReputation(request);
+    }
 }
