@@ -28,7 +28,7 @@ public class SometrendService {
         try {
             final String url = sometrendBaseUrl + "?keyword=" + request.keyword() + "&startDate="
 	+ request.startDate() + "&endDate=" + request.endDate() + "&sources=blog";
-            System.setProperty("webdriver.chrome.driver", "/Users/gundorit/chromedriver");
+            System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36");
@@ -62,7 +62,7 @@ public class SometrendService {
     public Document jsoup(SometrendRequest request) {
         final String url = sometrendBaseUrl + "?keyword=" + request.keyword() + "&startDate="
             + request.startDate() + "&endDate=" + request.endDate() + "&sources=blog";
-        System.setProperty("webdriver.chrome.driver", "/Users/gundorit/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
 
         try {
             Connection connection = Jsoup.connect(url);

@@ -18,7 +18,7 @@ public class YoutubeCrawlingService {
     private final String youtubeSearchUrl = "https://www.youtube.com/results?search_query=";
 
     public ArrayList<YoutubeCrawlingResponse> searchByKeyword(String keyword) {
-        System.setProperty("webdriver.chrome.driver", "/Users/gundorit/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
         WebDriver driver = new ChromeDriver();
         ArrayList<YoutubeCrawlingResponse> responses = new ArrayList<>();
 

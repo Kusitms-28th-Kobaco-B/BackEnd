@@ -27,7 +27,7 @@ public class KakaoDataTrendService {
             final String url = kakaoDataTrendBaseUri + "?q=" + encodedKeyword + "&from="
 	+ request.startDate() + "&to=" + request.endDate();
 
-            System.setProperty("webdriver.chrome.driver", "/Users/gundorit/chromedriver");
+            System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
             webDriver = new ChromeDriver();
             webDriver.get(url);
 
