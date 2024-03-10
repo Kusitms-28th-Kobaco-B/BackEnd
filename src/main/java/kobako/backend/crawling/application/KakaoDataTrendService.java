@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
@@ -28,11 +29,18 @@ public class KakaoDataTrendService {
 	+ request.startDate() + "&to=" + request.endDate();
 
             System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-            webDriver = new ChromeDriver();
+//            System.setProperty("webdriver.chrome.driver", "/Users/gundorit/chromedriver");
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments(
+	"user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36");
+
+            webDriver = new ChromeDriver(options);
             webDriver.get(url);
 
             // WebDriverWait를 사용하여 동적 콘텐츠가 로드될 때까지 기다립니다.
-            WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofMillis(1000));
+            WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10)); // 대기 시간을 10초로 조정
+
             wait.until(ExpectedConditions.visibilityOfElementLocated(
 	By.cssSelector("div.wrap_female > span.num_female")));
             wait.until(ExpectedConditions.visibilityOfElementLocated(
@@ -57,7 +65,7 @@ public class KakaoDataTrendService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to crawl kakao data trend");
+            return null;
         } finally {
             if (webDriver != null) {
 	webDriver.quit();

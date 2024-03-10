@@ -29,9 +29,11 @@ public class SometrendService {
             final String url = sometrendBaseUrl + "?keyword=" + request.keyword() + "&startDate="
 	+ request.startDate() + "&endDate=" + request.endDate() + "&sources=blog";
             System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+//            System.setProperty("webdriver.chrome.driver", "/Users/gundorit/chromedriver");
 
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36");
+            options.addArguments(
+	"user-agent=Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36");
 
             webDriver = new ChromeDriver(options);
             webDriver.get(url);
@@ -51,28 +53,11 @@ public class SometrendService {
             return associatedKeywords;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to crawl kakao data trend");
+            return null;
         } finally {
             if (webDriver != null) {
 	webDriver.quit();
             }
         }
-    }
-
-    public Document jsoup(SometrendRequest request) {
-        final String url = sometrendBaseUrl + "?keyword=" + request.keyword() + "&startDate="
-            + request.startDate() + "&endDate=" + request.endDate() + "&sources=blog";
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-
-        try {
-            Connection connection = Jsoup.connect(url);
-            Document document = connection.get();
-
-            return document;
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to crawl brand reputation");
-        }
-
     }
 }

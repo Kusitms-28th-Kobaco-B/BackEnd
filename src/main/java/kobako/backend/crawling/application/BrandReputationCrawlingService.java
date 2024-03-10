@@ -25,7 +25,14 @@ public class BrandReputationCrawlingService {
     private final BrandReputationCategory[] categories = {
         BrandReputationCategory.of("/ad", "광고 모델 부문"),
         BrandReputationCategory.of("/enter", "예능인 부문"),
-        BrandReputationCategory.of("/drama", "드라마 배우 부문")};
+        BrandReputationCategory.of("/drama", "드라마 배우 부문"),
+        BrandReputationCategory.of("/actor", "배우 부문"),
+        BrandReputationCategory.of("/star", "스타 부문"),
+        BrandReputationCategory.of("/boy", "보이그룹 부문"),
+        BrandReputationCategory.of("/girl", "걸그룹 부문"),
+        BrandReputationCategory.of("/trot", "트로트 가수 부문"),
+        BrandReputationCategory.of("/movie", "영화 배우 부문"),
+        BrandReputationCategory.of("/sports", "스포츠 스타 부문")};
     private String thisYearMonth;
 
     public BrandReputationCrawlingService() {
@@ -94,7 +101,7 @@ public class BrandReputationCrawlingService {
             return isContain ? brandReputations : null;
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to crawl brand reputation");
+            return null;
         }
     }
 

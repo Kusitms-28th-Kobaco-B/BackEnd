@@ -16,7 +16,7 @@ class DataLabServiceTest {
     @Test
     void 데이터랩을_통해_트렌드_검색을_진행한다() {
         // given
-        CharacterAnalysisRequest request = new CharacterAnalysisRequest("2021-01-01", "2021-01-31", "코로나");
+        CharacterAnalysisRequest request = new CharacterAnalysisRequest("20210101", "20210131", "코로나");
 
         // when
         DatalabSearchResponse response = dataLabService.search(request);
